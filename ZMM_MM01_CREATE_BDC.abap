@@ -856,6 +856,7 @@ ENDFORM.
 *&
 *&  0060  Initial screen           – single block, data-driven
 *&  0070  Pass  1  select views 01,02,04,05,06,08,10,13,14,15,16  /00
+*&  0070  Pass  S  scroll down to next page                       =P+
 *&  0070  Pass  2  navigation only                                 /00
 *&  0070  Pass  3  navigation only                                 /00
 *&  0070  Pass  4  select views 11,12,15,16,17                     /00
@@ -922,6 +923,11 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(15)' c_x.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(16)' c_x.
   PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
+
+  "--- Scroll: page down to next section of view list ---------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'BDC_OKCODE' '=P+'.
 
   "--- Pass 2: navigation only --------------------------------------
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
