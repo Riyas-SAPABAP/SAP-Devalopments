@@ -733,13 +733,22 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ELSE.
     ps_input-mtvfp = ps_raw-mtvfp.    "Col 23
   ENDIF.
+  "*-- Pre-validate MTVFP against T441 so the BDC is never called with a
+  "*-- code that doesn't exist - gives a clear error instead of msg 298/278.
+  IF ps_input-mtvfp IS NOT INITIAL.
+    PERFORM check_mtvfp_t441 USING ps_input-mtvfp pv_rowno CHANGING pv_ok.
+  ENDIF.
   ps_input-xchpf    = ps_raw-xchpf.    "Col 24
-  "*-- STEUC (Control Code / HSN, col 25): format is validated against T604F
-  "*-- (msg 058). Ensure no residual float notation reaches the screen field.
-  "*-- Note: msg 058 'Entry XX nnnn does not exist in T604F' is a master-data
-  "*-- error - create the HSN code in T604F (e.g. via VEN3/SM30) before
-  "*-- running this BDC. The clean_token form already strips '.0' suffixes.
+  "*-- STEUC (Control Code / HSN, col 25): validated against T604F at the
+  "*-- SAP screen level (msg 058 if entry missing).  Pre-validate here so
+  "*-- the BDC is never called with an invalid HSN and the user receives a
+  "*-- clear message pointing to the correct maintenance transaction.
+  "*-- clean_token has already stripped any Excel float '.0' suffix (msg 298).
   ps_input-steuc    = ps_raw-steuc.    "Col 25
+  "*-- Pre-validate STEUC against T604F for the plant's country.
+  IF ps_input-steuc IS NOT INITIAL.
+    PERFORM check_steuc_t604f USING ps_input-steuc ps_input-werks pv_rowno CHANGING pv_ok.
+  ENDIF.
   ps_input-taxim    = ps_raw-taxim.    "Col 26
   ps_input-dismm    = ps_raw-dismm.    "Col 27
   ps_input-beskz    = ps_raw-beskz.    "Col 28
@@ -808,6 +817,96 @@ FORM move_numeric USING    pv_value TYPE string
       PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
       cv_ok = abap_false.
   ENDTRY.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form CHECK_MTVFP_T441
+*& Pre-validates the Availability Check Group code against table T441.
+*& Avoids SAP messages 298 (Formatting error) + 278 (mandatory field)
+*& from the BDC and replaces them with a clear, actionable pre-run error.
+*&
+*& Root cause of 298/278 for MARC-MTVFP:
+*&  - Excel numeric cell (e.g. 2) arrives as "2.0" -> clean_token strips
+*&    to "2" -> padded to "02" in convert_raw_to_input.
+*&  - If the padded value ("02", "01", etc.) is still not in T441 the
+*&    BDC would fail with 298+278.  This form surfaces that early.
+*&---------------------------------------------------------------------*
+FORM check_mtvfp_t441 USING    pv_mtvfp TYPE marc-mtvfp
+                               pv_rowno TYPE i
+                      CHANGING pv_ok    TYPE abap_bool.
+
+  DATA lv_mtvfp TYPE t441-mtvfp.
+
+  TRY.
+      SELECT SINGLE mtvfp FROM t441 INTO lv_mtvfp WHERE mtvfp = pv_mtvfp.
+    CATCH cx_sy_open_sql_error.
+      RETURN.  " T441 inaccessible - skip check, let BDC surface the error
+  ENDTRY.
+
+  IF sy-subrc <> 0.
+    CONCATENATE 'MARC-MTVFP "' pv_mtvfp
+                '" does not exist in T441 (Availability Check Groups).'
+                ' Correct col 23 in the Excel template or add the code'
+                ' in SPRO > MM > Plant Params > Avail. Check.'
+      INTO gv_text SEPARATED BY space.
+    PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
+    pv_ok = abap_false.
+  ENDIF.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form CHECK_STEUC_T604F
+*& Pre-validates the HSN / commodity code against table T604F for the
+*& plant's country.  Avoids SAP messages 298 + 058 from the BDC and
+*& replaces them with a clear, actionable pre-run error that tells the
+*& user exactly which entry to create and which transaction to use.
+*&
+*& Root cause of 298/058 for MARC-STEUC:
+*&  - "298 Formatting error ... see next message" is a wrapper message;
+*&    the real failure is "058 Entry IN <code> does not exist in T604F".
+*&  - The float notation fix in clean_token removes "38089299.0" -> "38089299"
+*&    (eliminates 298 from bad format).
+*&  - The 058 error itself means the HSN entry is missing in T604F.
+*&    Create it via SM30 > V_T604F or transaction VEN3 for country = LAND1
+*&    of the plant, then re-run the BDC.
+*&---------------------------------------------------------------------*
+FORM check_steuc_t604f USING    pv_steuc TYPE marc-steuc
+                                pv_werks TYPE marc-werks
+                                pv_rowno TYPE i
+                       CHANGING pv_ok    TYPE abap_bool.
+
+  DATA: lv_land1  TYPE t001w-land1,
+        lv_zollnr TYPE t604f-zollnr,
+        lv_dummy  TYPE t604f-zollnr.
+
+  " Determine plant country from T001W
+  SELECT SINGLE land1 FROM t001w INTO lv_land1 WHERE werks = pv_werks.
+  IF sy-subrc <> 0 OR lv_land1 IS INITIAL.
+    RETURN.  " Cannot determine country - let BDC surface any error
+  ENDIF.
+
+  lv_zollnr = pv_steuc.  " widen 16-char STEUC to T604F-ZOLLNR field length
+
+  TRY.
+      SELECT SINGLE zollnr FROM t604f INTO lv_dummy
+        WHERE land1 = lv_land1
+          AND zollnr = lv_zollnr.
+    CATCH cx_sy_open_sql_error.
+      RETURN.  " T604F inaccessible - skip check, let BDC surface the error
+  ENDTRY.
+
+  IF sy-subrc <> 0.
+    CONCATENATE 'MARC-STEUC (HSN) "' pv_steuc
+                '" does not exist in T604F for country' lv_land1
+                '(plant' pv_werks ').'
+                ' Create the commodity-code entry via SM30 > V_T604F'
+                ' or transaction VEN3, then re-run the BDC.'
+      INTO gv_text SEPARATED BY space.
+    PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
+    pv_ok = abap_false.
+  ENDIF.
 
 ENDFORM.
 
