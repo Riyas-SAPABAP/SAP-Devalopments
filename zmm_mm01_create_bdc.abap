@@ -836,7 +836,7 @@ FORM check_mtvfp_t441 USING    pv_mtvfp TYPE marc-mtvfp
                                pv_rowno TYPE i
                       CHANGING pv_ok    TYPE abap_bool.
 
-  DATA lv_mtvfp TYPE t441-mtvfp.
+  DATA lv_mtvfp TYPE marc-mtvfp.   " same domain as t441-mtvfp (CHAR 2)
 
   TRY.
       SELECT SINGLE mtvfp FROM t441 INTO lv_mtvfp WHERE mtvfp = pv_mtvfp.
