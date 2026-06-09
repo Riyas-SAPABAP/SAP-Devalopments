@@ -876,17 +876,17 @@ ENDFORM.
 *&   4004  Sales General/Plant Data
 *&   4004  International Trade: Export
 *&   4000  Purchasing
-*&   4000  Costing 1
-*&   4000  Costing navigation
-*&   4000  Costing 2
-*&   4000  Accounting 1
-*&   4000  MRP 1
-*&   4000  MRP 2
-*&   4000  MRP 3
-*&   4000  MRP 4
-*&   4000  Storage 1
-*&   4000  Storage 2
-*&   4000  Quality Management
+*&   4004  Costing 1
+*&   4004  Costing navigation
+*&   4004  Costing 2
+*&   4004  Accounting 1
+*&   4004  MRP 1
+*&   4004  MRP 2
+*&   4004  MRP 3
+*&   4004  MRP 4
+*&   4004  Storage 1
+*&   4004  Storage 2
+*&   4004  Quality Management
 *&   SPO1  Save confirmation popup
 *&---------------------------------------------------------------------*
 FORM build_bdc USING ps_input TYPE ty_input.
@@ -996,10 +996,10 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MG03STEUMM-TAXIM' ps_input-taxim.
   PERFORM bdc_field  USING 'BDC_OKCODE'        c_ok_enter.
 
-  "--- Costing 1 (4000) ---------------------------------------------
+  "--- Costing 1 (4004) ---------------------------------------------
   "    MBEW-BKLAS  CKMLHD-MLAST
   "    CKMAT_DISPLAY-STPRS_1/2/3  CKMAT_DISPLAY-PEINH_1/2/3
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MBEW-BKLAS'             ps_input-bklas.
   PERFORM bdc_field  USING 'CKMLHD-MLAST'           ps_input-mlast.
   PERFORM bdc_num    USING 'CKMAT_DISPLAY-STPRS_1'   ps_input-stprs1.
@@ -1010,13 +1010,13 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_num    USING 'CKMAT_DISPLAY-PEINH_3'   ps_input-peinh3.
   PERFORM bdc_field  USING 'BDC_OKCODE'              c_ok_enter.
 
-  "--- Costing navigation (4000) – no user-data fields --------------
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  "--- Costing navigation (4004) – no user-data fields --------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- Costing 2 (4000) ---------------------------------------------
+  "--- Costing 2 (4004) ---------------------------------------------
   "    MBEW-EKALR  MBEW-HKMAT  MARC-SOBSK (conditional)  MARC-LOSGR
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MBEW-EKALR' ps_input-ekalr.
   PERFORM bdc_field  USING 'MBEW-HKMAT' ps_input-hkmat.
   IF ps_input-sobsk IS NOT INITIAL.
@@ -1025,10 +1025,10 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_num    USING 'MARC-LOSGR' ps_input-losgr.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- Accounting 1 / Valuation (4000) ------------------------------
+  "--- Accounting 1 / Valuation (4004) ------------------------------
   "    MBEW-VPRSV  MBEW-STPRS  MBEW-PEINH
   "    MBEW-VERPR only when VPRSV = 'V' (moving average price)
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MBEW-VPRSV' ps_input-vprsv.
   PERFORM bdc_num    USING 'MBEW-STPRS' ps_input-stprs.
   PERFORM bdc_num    USING 'MBEW-PEINH' ps_input-peinh.
@@ -1037,43 +1037,43 @@ FORM build_bdc USING ps_input TYPE ty_input.
   ENDIF.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- MRP 1 (4000) -------------------------------------------------
+  "--- MRP 1 (4004) -------------------------------------------------
   "    MARC-DISMM
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-DISMM' ps_input-dismm.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- MRP 2 (4000) -------------------------------------------------
+  "--- MRP 2 (4004) -------------------------------------------------
   "    MARC-BESKZ
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-BESKZ' ps_input-beskz.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- MRP 3 (4000) -------------------------------------------------
+  "--- MRP 3 (4004) -------------------------------------------------
   "    MARC-PERKZ
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-PERKZ' ps_input-perkz.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- MRP 4 (4000) – no user-data fields --------------------------
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  "--- MRP 4 (4004) – no user-data fields --------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- Storage 1 (4000) ---------------------------------------------
+  "--- Storage 1 (4004) ---------------------------------------------
   "    MARA-IPRKZ  MARA-SLED_BBD
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARA-IPRKZ'    ps_input-iprkz.
   PERFORM bdc_field  USING 'MARA-SLED_BBD' ps_input-sled_bbd.
   PERFORM bdc_field  USING 'BDC_OKCODE'    c_ok_enter.
 
-  "--- Storage 2 (4000) – no user-data fields ----------------------
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  "--- Storage 2 (4004) – no user-data fields ----------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- Quality Management (4000) ------------------------------------
+  "--- Quality Management (4004) ------------------------------------
   "    MARA-QMPUR  MARC-INSMK  MARC-SSQSS  MARC-KZDKZ  MARC-NCOST
   "    RMQAM-ARGUMENT  RMQAM-ART(01)
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARA-QMPUR'     ps_input-qmpur.
   PERFORM bdc_field  USING 'MARC-INSMK'     ps_input-insmk.
   PERFORM bdc_field  USING 'MARC-SSQSS'     ps_input-ssqss.
