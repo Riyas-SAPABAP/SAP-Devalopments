@@ -8,78 +8,61 @@ TYPE-POOLS: slis.
 TYPES: ty_msgtext TYPE c LENGTH 255,
        ty_char40  TYPE c LENGTH 40.
 
-*& Excel column mapping (54 columns, matching MM01_ROH_BDC_Input_Template):
-*& Col  1 MBRSH    Col 14 WRKST    Col 27 DISMM    Col 40 SOBSK
-*& Col  2 MTART    Col 15 SKTOF    Col 28 BESKZ    Col 41 LOSGR
-*& Col  3 WERKS    Col 16 TAXKM1   Col 29 PERKZ    Col 42 MLAST
-*& Col  4 LGORT    Col 17 TAXKM2   Col 30 IPRKZ    Col 43 STPRS1
-*& Col  5 VKORG    Col 18 VERSG    Col 31 SLED_BBD Col 44 STPRS2
-*& Col  6 VTWEG    Col 19 KONDM    Col 32 QMPUR    Col 45 STPRS3
-*& Col  7 MAKTX    Col 20 TRAGR    Col 33 SSQSS    Col 46 PEINH1
-*& Col  8 MEINS    Col 21 LADGR    Col 34 BKLAS    Col 47 PEINH2
-*& Col  9 MATKL    Col 22 PRCTR    Col 35 VPRSV    Col 48 PEINH3
-*& Col 10 SPART    Col 23 MTVFP    Col 36 STPRS    Col 49 VERPR
-*& Col 11 BRGEW    Col 24 XCHPF    Col 37 PEINH    Col 50 INSMK
-*& Col 12 GEWEI    Col 25 STEUC    Col 38 EKALR    Col 51 KZDKZ
-*& Col 13 NTGEW    Col 26 TAXIM    Col 39 HKMAT    Col 52 NCOST
-*&                                                  Col 53 QPLS_ARG
-*&                                                  Col 54 QPLS_ART
-
 TYPES: BEGIN OF ty_input,
-         mbrsh    TYPE c LENGTH 1,   "Col 01 - Industry Sector
-         mtart    TYPE c LENGTH 4,   "Col 02 - Material Type
-         werks    TYPE c LENGTH 4,   "Col 03 - Plant
-         lgort    TYPE c LENGTH 4,   "Col 04 - Storage Location
-         vkorg    TYPE c LENGTH 4,   "Col 05 - Sales Organisation
-         vtweg    TYPE c LENGTH 2,   "Col 06 - Distribution Channel
-         maktx    TYPE c LENGTH 40,  "Col 07 - Material Description
-         meins    TYPE c LENGTH 3,   "Col 08 - Base Unit of Measure
-         matkl    TYPE c LENGTH 9,   "Col 09 - Material Group
-         spart    TYPE c LENGTH 2,   "Col 10 - Division
-         brgew    TYPE p DECIMALS 3, "Col 11 - Gross Weight
-         gewei    TYPE c LENGTH 3,   "Col 12 - Weight Unit
-         ntgew    TYPE p DECIMALS 3, "Col 13 - Net Weight
-         wrkst    TYPE c LENGTH 48,  "Col 14 - Basic Material / Raw Material
-         sktof    TYPE c LENGTH 1,   "Col 15 - Cash Discount Indicator
-         taxkm1   TYPE c LENGTH 1,   "Col 16 - Tax Classification 1
-         taxkm2   TYPE c LENGTH 1,   "Col 17 - Tax Classification 2
-         versg    TYPE c LENGTH 1,   "Col 18 - Material Statistics Group
-         kondm    TYPE c LENGTH 2,   "Col 19 - Material Pricing Group
-         tragr    TYPE c LENGTH 4,   "Col 20 - Transportation Group
-         ladgr    TYPE c LENGTH 4,   "Col 21 - Loading Group
-         prctr    TYPE c LENGTH 10,  "Col 22 - Profit Centre
-         mtvfp    TYPE c LENGTH 2,   "Col 23 - Availability Check
-         xchpf    TYPE c LENGTH 1,   "Col 24 - Batch Management Indicator
-         steuc    TYPE c LENGTH 16,  "Col 25 - Control Code / HSN
-         taxim    TYPE c LENGTH 1,   "Col 26 - Tax Indicator Material
-         dismm    TYPE c LENGTH 2,   "Col 27 - MRP Type
-         beskz    TYPE c LENGTH 1,   "Col 28 - Procurement Type
-         perkz    TYPE c LENGTH 1,   "Col 29 - Period Indicator
-         iprkz    TYPE c LENGTH 1,   "Col 30 - SLED Period Indicator
-         sled_bbd TYPE c LENGTH 1,   "Col 31 - Shelf Life / BBD
-         qmpur    TYPE c LENGTH 1,   "Col 32 - QM Procurement Active
-         ssqss    TYPE c LENGTH 8,   "Col 33 - QM Control Key
-         bklas    TYPE c LENGTH 4,   "Col 34 - Valuation Class
-         vprsv    TYPE c LENGTH 1,   "Col 35 - Price Control
-         stprs    TYPE p DECIMALS 2, "Col 36 - Standard Price
-         peinh    TYPE p DECIMALS 0, "Col 37 - Price Unit
-         ekalr    TYPE c LENGTH 1,   "Col 38 - With Quantity Structure
-         hkmat    TYPE c LENGTH 1,   "Col 39 - Material Origin
-         sobsk    TYPE c LENGTH 2,   "Col 40 - Special Procurement Type
-         losgr    TYPE p DECIMALS 0, "Col 41 - Costing Lot Size
-         mlast    TYPE c LENGTH 1,   "Col 42 - Price Determination
-         stprs1   TYPE p DECIMALS 2, "Col 43 - Std Price Period 1
-         stprs2   TYPE p DECIMALS 2, "Col 44 - Std Price Period 2
-         stprs3   TYPE p DECIMALS 2, "Col 45 - Std Price Period 3
-         peinh1   TYPE p DECIMALS 0, "Col 46 - Price Unit Period 1
-         peinh2   TYPE p DECIMALS 0, "Col 47 - Price Unit Period 2
-         peinh3   TYPE p DECIMALS 0, "Col 48 - Price Unit Period 3
-         verpr    TYPE p DECIMALS 2, "Col 49 - Moving Average Price
-         insmk    TYPE c LENGTH 1,   "Col 50 - Inspection Stock Indicator (MARC-INSMK)
-         kzdkz    TYPE c LENGTH 1,   "Col 51 - Post to Inspection Stock  (MARC-KZDKZ)
-         ncost    TYPE c LENGTH 1,   "Col 52 - Do Not Cost Material      (MARC-NCOST)
-         qpls_arg TYPE c LENGTH 10,  "Col 53 - Insp Plan Usage (QPLS popup)
-         qpls_art TYPE c LENGTH 4,   "Col 54 - Insp Plan Type  (QPLS popup)
+         mbrsh    TYPE c LENGTH 1,
+         mtart    TYPE c LENGTH 4,
+         werks    TYPE c LENGTH 4,
+         lgort    TYPE c LENGTH 4,
+         vkorg    TYPE c LENGTH 4,
+         vtweg    TYPE c LENGTH 2,
+         maktx    TYPE c LENGTH 40,
+         meins    TYPE c LENGTH 3,
+         matkl    TYPE c LENGTH 9,
+         spart    TYPE c LENGTH 2,
+         brgew    TYPE p DECIMALS 3,
+         gewei    TYPE c LENGTH 3,
+         ntgew    TYPE p DECIMALS 3,
+         wrkst    TYPE c LENGTH 48,
+         sktof    TYPE c LENGTH 1,
+         taxkm1   TYPE c LENGTH 1,
+         taxkm2   TYPE c LENGTH 1,
+         versg    TYPE c LENGTH 1,
+         kondm    TYPE c LENGTH 2,
+         tragr    TYPE c LENGTH 4,
+         ladgr    TYPE c LENGTH 4,
+         prctr    TYPE c LENGTH 10,
+         mtvfp    TYPE c LENGTH 2,
+         xchpf    TYPE c LENGTH 1,
+         steuc    TYPE c LENGTH 16,
+         taxim    TYPE c LENGTH 1,
+         dismm    TYPE c LENGTH 2,
+         beskz    TYPE c LENGTH 1,
+         perkz    TYPE c LENGTH 1,
+         iprkz    TYPE c LENGTH 1,
+         sled_bbd TYPE c LENGTH 1,
+         qmpur    TYPE c LENGTH 1,
+         ssqss    TYPE c LENGTH 8,
+         bklas    TYPE c LENGTH 4,
+         vprsv    TYPE c LENGTH 1,
+         stprs    TYPE p DECIMALS 2,
+         peinh    TYPE p DECIMALS 0,
+         ekalr    TYPE c LENGTH 1,
+         hkmat    TYPE c LENGTH 1,
+         sobsk    TYPE c LENGTH 2,
+         losgr    TYPE p DECIMALS 0,
+         mlast    TYPE c LENGTH 1,
+         stprs1   TYPE p DECIMALS 2,
+         stprs2   TYPE p DECIMALS 2,
+         stprs3   TYPE p DECIMALS 2,
+         peinh1   TYPE p DECIMALS 0,
+         peinh2   TYPE p DECIMALS 0,
+         peinh3   TYPE p DECIMALS 0,
+         verpr    TYPE p DECIMALS 2,
+         insmk    TYPE c LENGTH 1,
+         kzdkz    TYPE c LENGTH 1,
+         ncost    TYPE c LENGTH 1,
+         qpls_arg TYPE c LENGTH 10,
+         qpls_art TYPE c LENGTH 4,
        END OF ty_input.
 
 TYPES: BEGIN OF ty_input_raw,
@@ -158,15 +141,14 @@ TYPES: BEGIN OF ty_error,
 *&---------------------------------------------------------------------*
 CONSTANTS:
   c_tcode_mm01    TYPE tcode VALUE 'MM01',
-  c_expected_cols TYPE i     VALUE 54,     "54 columns in template
+  c_expected_cols TYPE i     VALUE 54,
   c_update_sync   TYPE c     VALUE 'S',
   c_x             TYPE c     VALUE 'X',
 
-  c_ok_enter      TYPE bdcdata-fval VALUE '/00',    "Data screen Enter
-  c_ok_entr       TYPE bdcdata-fval VALUE '=ENTR',  "Initial/Org screen Enter
-  c_ok_p_plus     TYPE bdcdata-fval VALUE '=P+',    "Page Down in view list
-  c_ok_schl       TYPE bdcdata-fval VALUE '=SCHL',  "Close view selection
-  c_ok_yes        TYPE bdcdata-fval VALUE '=YES',   "Confirm save popup
+  c_ok_enter      TYPE bdcdata-fval VALUE '/00',
+  c_ok_entr       TYPE bdcdata-fval VALUE '=ENTR',
+  c_ok_schl       TYPE bdcdata-fval VALUE '=SCHL',
+  c_ok_yes        TYPE bdcdata-fval VALUE '=YES',
 
   c_prog_mm       LIKE bdcdata-program VALUE 'SAPLMGMM',
   c_scr_0060      LIKE bdcdata-dynpro  VALUE '0060',
@@ -175,6 +157,7 @@ CONSTANTS:
   c_scr_4000      LIKE bdcdata-dynpro  VALUE '4000',
   c_scr_4004      LIKE bdcdata-dynpro  VALUE '4004',
 
+  "Final save confirmation popup (from recording).
   c_prog_spo1     LIKE bdcdata-program VALUE 'SAPLSPO1',
   c_scr_spo1      LIKE bdcdata-dynpro  VALUE '0300'.
 
@@ -184,7 +167,7 @@ CONSTANTS:
 PARAMETERS:
   p_file  TYPE rlgrap-filename OBLIGATORY,
   p_mode  TYPE c DEFAULT 'A',
-  p_matnr TYPE matnr.         "Leave blank for internal number range
+  p_matnr TYPE matnr.              "Blank = internal number range
 
 *&---------------------------------------------------------------------*
 *& Global Data
@@ -269,7 +252,7 @@ AT SELECTION-SCREEN.
 *&---------------------------------------------------------------------*
 START-OF-SELECTION.
 
-  WRITE: / 'MM01 Material Master Creation BDC'.
+  WRITE: / 'Material Master Creation BDC'.
   SKIP.
 
   PERFORM upload_excel_xlsx.
@@ -284,8 +267,15 @@ START-OF-SELECTION.
 
   LOOP AT gt_records INTO gs_record.
 
-    REFRESH: gt_bdcdata, gt_msgcoll.
-    CLEAR:   gv_material, gv_call_subrc, gv_row_failed, wa_input.
+    REFRESH:
+      gt_bdcdata,
+      gt_msgcoll.
+
+    CLEAR:
+      gv_material,
+      gv_call_subrc,
+      gv_row_failed,
+      wa_input.
 
     wa_input = gs_record-input.
 
@@ -317,7 +307,9 @@ START-OF-SELECTION.
 FORM f4_file.
 
   REFRESH gt_filetab.
-  CLEAR: gs_filetab, gv_rc.
+  CLEAR:
+    gs_filetab,
+    gv_rc.
 
   CALL METHOD cl_gui_frontend_services=>file_open_dialog
     EXPORTING
@@ -356,9 +348,18 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM upload_excel_xlsx.
 
-  REFRESH: gt_records, gt_binary, gt_worksheets.
-  CLEAR:   gv_filelength, gv_xstring, gv_filename,
-           gv_worksheet,  gr_excel_data, gv_excel_offset.
+  REFRESH:
+    gt_records,
+    gt_binary,
+    gt_worksheets.
+
+  CLEAR:
+    gv_filelength,
+    gv_xstring,
+    gv_filename,
+    gv_worksheet,
+    gr_excel_data,
+    gv_excel_offset.
 
   gv_filename = p_file.
 
@@ -384,7 +385,7 @@ FORM upload_excel_xlsx.
       OTHERS                  = 11.
 
   IF sy-subrc <> 0.
-    gv_text = 'Excel upload failed. Check path and SAP GUI authorisation.'.
+    gv_text = 'Excel file upload failed. Check file path and SAP GUI authorization.'.
     PERFORM add_error USING 0 p_matnr 'E' 'LOCAL' '000' gv_text.
     RETURN.
   ENDIF.
@@ -407,12 +408,13 @@ FORM upload_excel_xlsx.
       OTHERS       = 2.
 
   IF sy-subrc <> 0 OR gv_xstring IS INITIAL.
-    gv_text = 'Excel binary-to-XSTRING conversion failed.'.
+    gv_text = 'Excel binary conversion to XSTRING failed.'.
     PERFORM add_error USING 0 p_matnr 'E' 'LOCAL' '000' gv_text.
     RETURN.
   ENDIF.
 
   TRY.
+
       CREATE OBJECT go_excel
         EXPORTING
           document_name = gv_filename
@@ -430,22 +432,25 @@ FORM upload_excel_xlsx.
 
       READ TABLE gt_worksheets INTO gv_worksheet INDEX 1.
       IF sy-subrc <> 0 OR gv_worksheet IS INITIAL.
-        gv_text = 'Unable to read first worksheet.'.
+        gv_text = 'Unable to read first worksheet from Excel file.'.
         PERFORM add_error USING 0 p_matnr 'E' 'LOCAL' '000' gv_text.
         RETURN.
       ENDIF.
 
-      gr_excel_data =
-        go_excel->if_fdt_doc_spreadsheet~get_itab_from_worksheet( gv_worksheet ).
+      gr_excel_data = go_excel->if_fdt_doc_spreadsheet~get_itab_from_worksheet( gv_worksheet ).
 
     CATCH cx_fdt_excel_core INTO go_excel_error.
+
       CLEAR gv_text.
       gv_text = go_excel_error->get_text( ).
+
       IF gv_text IS INITIAL.
-        gv_text = 'Excel parsing failed (CL_FDT_XL_SPREADSHEET).'.
+        gv_text = 'Excel parsing failed using CL_FDT_XL_SPREADSHEET.'.
       ENDIF.
+
       PERFORM add_error USING 0 p_matnr 'E' 'LOCAL' '000' gv_text.
       RETURN.
+
   ENDTRY.
 
   IF gr_excel_data IS INITIAL.
@@ -467,10 +472,16 @@ FORM upload_excel_xlsx.
 
     gv_rowno = sy-tabix + gv_excel_offset.
 
-    CLEAR: gs_raw, wa_input, gv_ok, gv_skip.
+    CLEAR:
+      gs_raw,
+      wa_input,
+      gv_ok,
+      gv_skip.
+
     gv_ok = abap_true.
 
     DO c_expected_cols TIMES.
+
       gv_index = sy-index.
       CLEAR gv_token.
 
@@ -484,20 +495,26 @@ FORM upload_excel_xlsx.
       IF sy-subrc = 0.
         <fs_raw> = gv_token.
       ENDIF.
+
     ENDDO.
 
     PERFORM check_skip_row USING gs_raw CHANGING gv_skip.
-    IF gv_skip = abap_true. CONTINUE. ENDIF.
+
+    IF gv_skip = abap_true.
+      CONTINUE.
+    ENDIF.
 
     PERFORM validate_required_fields USING gs_raw gv_rowno CHANGING gv_ok.
+
     IF gv_ok = abap_false.
       gv_failed = gv_failed + 1.
       CONTINUE.
     ENDIF.
 
-    PERFORM convert_raw_to_input
-      USING    gs_raw gv_rowno
-      CHANGING wa_input gv_ok.
+    PERFORM convert_raw_to_input USING gs_raw
+                                       gv_rowno
+                              CHANGING wa_input
+                                       gv_ok.
 
     IF gv_ok = abap_true.
       CLEAR gs_record.
@@ -511,7 +528,7 @@ FORM upload_excel_xlsx.
   ENDLOOP.
 
   IF gt_records IS INITIAL AND gt_errors IS INITIAL.
-    gv_text = 'No valid data rows found. Template data should start at row 4.'.
+    gv_text = 'No valid Excel data rows found. Please check that actual data starts from row 4.'.
     PERFORM add_error USING 0 p_matnr 'E' 'LOCAL' '000' gv_text.
   ENDIF.
 
@@ -519,16 +536,19 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form DETECT_EXCEL_OFFSET
-*& Reads the first cell to determine how many header rows the template
-*& has so that row numbers in error messages match Excel row numbers.
-*& Template: row1=field names, row2=SAP names, row3=descriptions, row4=data
 *&---------------------------------------------------------------------*
 FORM detect_excel_offset.
 
-  CLEAR: gv_excel_offset, gv_first_cell, gv_second_cell.
+  CLEAR:
+    gv_excel_offset,
+    gv_first_cell,
+    gv_second_cell.
 
   READ TABLE <gt_excel_dyn> ASSIGNING <gs_excel_dyn> INDEX 1.
-  IF sy-subrc <> 0. gv_excel_offset = 0. RETURN. ENDIF.
+  IF sy-subrc <> 0.
+    gv_excel_offset = 0.
+    RETURN.
+  ENDIF.
 
   ASSIGN COMPONENT 1 OF STRUCTURE <gs_excel_dyn> TO <fs_cell>.
   IF sy-subrc = 0.
@@ -536,12 +556,23 @@ FORM detect_excel_offset.
     PERFORM clean_token CHANGING gv_first_cell.
   ENDIF.
 
-  TRANSLATE gv_first_cell TO UPPER CASE.
+  ASSIGN COMPONENT 2 OF STRUCTURE <gs_excel_dyn> TO <fs_cell>.
+  IF sy-subrc = 0.
+    gv_second_cell = <fs_cell>.
+    PERFORM clean_token CHANGING gv_second_cell.
+  ENDIF.
 
-  IF      gv_first_cell = 'MBRSH'.           gv_excel_offset = 0.
-  ELSEIF  gv_first_cell = 'RMMG1-MBRSH'.    gv_excel_offset = 1.
-  ELSEIF  gv_first_cell = 'INDUSTRY SECTOR'. gv_excel_offset = 2.
-  ELSE.                                       gv_excel_offset = 3.
+  TRANSLATE gv_first_cell TO UPPER CASE.
+  TRANSLATE gv_second_cell TO UPPER CASE.
+
+  IF gv_first_cell = 'MBRSH'.
+    gv_excel_offset = 0.
+  ELSEIF gv_first_cell = 'RMMG1-MBRSH'.
+    gv_excel_offset = 1.
+  ELSEIF gv_first_cell = 'INDUSTRY SECTOR'.
+    gv_excel_offset = 2.
+  ELSE.
+    gv_excel_offset = 3.
   ENDIF.
 
 ENDFORM.
@@ -566,21 +597,33 @@ FORM check_skip_row USING    ps_raw  TYPE ty_input_raw
   TRANSLATE lv_mtart TO UPPER CASE.
   TRANSLATE lv_maktx TO UPPER CASE.
 
-  "Fully blank row
-  IF ps_raw-mbrsh IS INITIAL AND ps_raw-mtart IS INITIAL
-     AND ps_raw-werks IS INITIAL AND ps_raw-lgort IS INITIAL
+  IF ps_raw-mbrsh IS INITIAL
+     AND ps_raw-mtart IS INITIAL
+     AND ps_raw-werks IS INITIAL
+     AND ps_raw-lgort IS INITIAL
      AND ps_raw-maktx IS INITIAL.
-    pv_skip = abap_true. RETURN.
+    pv_skip = abap_true.
+    RETURN.
   ENDIF.
 
-  "Header rows: field-name row, SAP-name row, description row
-  IF lv_mbrsh = 'MBRSH'           OR lv_mtart = 'MTART'
-     OR lv_maktx = 'MAKTX'
-     OR lv_mbrsh = 'RMMG1-MBRSH'  OR lv_mtart = 'RMMG1-MTART'
-     OR lv_mbrsh = 'INDUSTRY SECTOR'
+  IF lv_mbrsh = 'MBRSH'
+     OR lv_mtart = 'MTART'
+     OR lv_maktx = 'MAKTX'.
+    pv_skip = abap_true.
+    RETURN.
+  ENDIF.
+
+  IF lv_mbrsh = 'RMMG1-MBRSH'
+     OR lv_mtart = 'RMMG1-MTART'.
+    pv_skip = abap_true.
+    RETURN.
+  ENDIF.
+
+  IF lv_mbrsh = 'INDUSTRY SECTOR'
      OR lv_mtart = 'MATERIAL TYPE'
      OR lv_maktx = 'MATERIAL DESCRIPTION'.
-    pv_skip = abap_true. RETURN.
+    pv_skip = abap_true.
+    RETURN.
   ENDIF.
 
 ENDFORM.
@@ -595,47 +638,111 @@ FORM validate_required_fields USING    ps_raw   TYPE ty_input_raw
   pv_ok = abap_true.
 
   IF ps_raw-mbrsh IS INITIAL.
-    gv_text = 'Mandatory: MBRSH (Industry Sector) is blank.'.
+    gv_text = 'Mandatory field MBRSH is blank.'.
     PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
     pv_ok = abap_false.
   ENDIF.
+
   IF ps_raw-mtart IS INITIAL.
-    gv_text = 'Mandatory: MTART (Material Type) is blank.'.
+    gv_text = 'Mandatory field MTART is blank.'.
     PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
     pv_ok = abap_false.
   ENDIF.
+
   IF ps_raw-werks IS INITIAL.
-    gv_text = 'Mandatory: WERKS (Plant) is blank.'.
+    gv_text = 'Mandatory field WERKS is blank.'.
     PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
     pv_ok = abap_false.
   ENDIF.
+
   IF ps_raw-maktx IS INITIAL.
-    gv_text = 'Mandatory: MAKTX (Description) is blank.'.
+    gv_text = 'Mandatory field MAKTX is blank.'.
     PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
     pv_ok = abap_false.
   ENDIF.
+
   IF ps_raw-meins IS INITIAL.
-    gv_text = 'Mandatory: MEINS (Base Unit of Measure) is blank.'.
+    gv_text = 'Mandatory field MEINS is blank.'.
     PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
     pv_ok = abap_false.
   ENDIF.
-  "*-- DISMM (MRP Type) is mandatory on MRP 1 - SAP msg 072 if blank
-  IF ps_raw-dismm IS INITIAL.
-    gv_text = 'Mandatory: DISMM (MRP Type, col 27) is blank - SAP msg 072.'.
-    PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
-    pv_ok = abap_false.
-  ENDIF.
-  "*-- MTVFP (Availability Check) is mandatory on Sales:General/Plant
-  "*-- and MRP 3 screens - SAP msg 278 if blank or msg 298 if wrong format.
+
+  "*-- FIX 1: MARC-MTVFP (Availability Check) is mandatory on the
+  "*-- Sales:General/Plant screen. A blank value causes SAP msg 298+278.
   IF ps_raw-mtvfp IS INITIAL.
-    gv_text = 'Mandatory: MTVFP (Availability Check, col 23) is blank - SAP msg 278.'.
+    gv_text = 'Mandatory field MTVFP (Availability Check, col 23) is blank.'.
     PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
     pv_ok = abap_false.
   ENDIF.
-  "*-- PRCTR (Profit Centre) is mandatory on Sales:General/Plant screen
-  "*-- - SAP msg 278 if blank, msg 298 if wrong format.
+
+  "*-- FIX 2: MARC-PRCTR (Profit Centre) is mandatory on the
+  "*-- Sales:General/Plant screen. A blank value causes SAP msg 298+278.
   IF ps_raw-prctr IS INITIAL.
-    gv_text = 'Mandatory: PRCTR (Profit Centre, col 22) is blank - SAP msg 278.'.
+    gv_text = 'Mandatory field PRCTR (Profit Centre, col 22) is blank.'.
+    PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
+    pv_ok = abap_false.
+  ENDIF.
+
+  "*-- FIX 3a: MARC-STEUC (HSN / Control Code) - pre-validate against
+  "*-- T604F for the plant country to surface msg 058 before the BDC runs.
+  "*-- Requires the commodity code to be created via SM30 > V_T604F or VEN3.
+  IF ps_raw-steuc IS NOT INITIAL AND ps_raw-werks IS NOT INITIAL.
+    PERFORM validate_steuc_t604f USING ps_raw-steuc ps_raw-werks pv_rowno
+                                CHANGING pv_ok.
+  ENDIF.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form VALIDATE_STEUC_T604F
+*& Pre-validates the HSN/commodity code against T604F for the plant
+*& country before the BDC is called.  Avoids opaque SAP messages
+*& 298 (Formatting error) + 058 (Entry not in T604F) at BDC time
+*& and replaces them with a clear, actionable pre-run error that
+*& tells the user exactly which entry to create and how.
+*&
+*& Root causes of 298+058 for MARC-STEUC:
+*&  1. Format error (298): Excel stores integer codes as floats, so
+*&     the value arrives as e.g. "38089299.0". CLEAN_TOKEN strips the
+*&     ".0" suffix (FIX 3b) so the value passed to MARC-STEUC is a
+*&     plain integer string "38089299" without any illegal character.
+*&  2. T604F missing (058): the HSN code does not exist in the SAP
+*&     customs tariff table for the plant's country. This is a master-
+*&     data gap that cannot be fixed in ABAP. Action required:
+*&       SM30 > V_T604F  *or*  transaction VEN3
+*&     Add an entry for country = LAND1(plant) and code = STEUC value.
+*&---------------------------------------------------------------------*
+FORM validate_steuc_t604f USING    pv_steuc TYPE string
+                                   pv_werks TYPE string
+                                   pv_rowno TYPE i
+                          CHANGING pv_ok    TYPE abap_bool.
+
+  DATA: lv_land1  TYPE c LENGTH 2,
+        lv_zollnr TYPE c LENGTH 50,
+        lv_dummy  TYPE c LENGTH 50.
+
+  SELECT SINGLE land1 FROM t001w INTO lv_land1 WHERE werks = pv_werks.
+  IF sy-subrc <> 0 OR lv_land1 IS INITIAL.
+    RETURN.  " Cannot determine plant country - let BDC surface any error
+  ENDIF.
+
+  lv_zollnr = pv_steuc.
+
+  TRY.
+      SELECT SINGLE zollnr FROM t604f INTO lv_dummy
+        WHERE land1  = lv_land1
+          AND zollnr = lv_zollnr.
+    CATCH cx_sy_open_sql_error.
+      RETURN.  " T604F not accessible - skip, let BDC surface the error
+  ENDTRY.
+
+  IF sy-subrc <> 0.
+    CONCATENATE 'MARC-STEUC (HSN) "' pv_steuc
+                '" not in T604F for country' lv_land1
+                '(plant' pv_werks ').'
+                ' Create entry via SM30 > V_T604F or transaction VEN3,'
+                ' then re-run.'
+      INTO gv_text SEPARATED BY space.
     PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
     pv_ok = abap_false.
   ENDIF.
@@ -645,10 +752,13 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form CLEAN_TOKEN
 *&---------------------------------------------------------------------*
-*& Strips CR/LF, leading/trailing whitespace, and surrounding quotes.
-*& Also converts Excel integer-as-float strings (e.g. "2.0", "38089299.0")
-*& to plain integer strings ("2", "38089299") so that downstream SAP
-*& CHAR fields receive correctly formatted values and avoid msg 298.
+*& Strips CR/LF, surrounding quotes, and leading/trailing whitespace.
+*&
+*& FIX 3b: Also strips the trailing ".0" (and similar all-zero fractions)
+*& that CL_FDT_XL_SPREADSHEET adds when it reads an integer-valued Excel
+*& cell as a float string (e.g. "2.0" -> "2", "38089299.0" -> "38089299").
+*& Without this fix, a decimal point in a SAP CHAR field causes msg 298
+*& (Formatting error) for MARC-MTVFP, MARC-PRCTR, and MARC-STEUC.
 *&---------------------------------------------------------------------*
 FORM clean_token CHANGING cv_value TYPE string.
 
@@ -659,41 +769,41 @@ FORM clean_token CHANGING cv_value TYPE string.
   REPLACE ALL OCCURRENCES OF cl_abap_char_utilities=>cr_lf   IN cv_value WITH space.
   REPLACE ALL OCCURRENCES OF cl_abap_char_utilities=>newline IN cv_value WITH space.
 
-  SHIFT cv_value LEFT  DELETING LEADING  space.
+  SHIFT cv_value LEFT  DELETING LEADING space.
   SHIFT cv_value RIGHT DELETING TRAILING space.
 
-  "*-- Excel stores integers in numeric cells as floating-point.
-  "*-- When read via CL_FDT_XL_SPREADSHEET they may arrive as e.g. "2.0"
-  "*-- or "38089299.0". Strip the decimal part when the fraction is all zeros
-  "*-- so that SAP CHAR fields (MTVFP, STEUC, PRCTR, etc.) receive clean values
-  "*-- and do not trigger message 298 (Formatting error).
+  " Strip trailing all-zero fraction from Excel integer-as-float strings.
+  " e.g. "2.0" -> "2",  "38089299.0" -> "38089299",  "02.00" -> "02".
+  " A non-zero fraction (e.g. "2.5") is left untouched.
   FIND FIRST OCCURRENCE OF '.' IN cv_value MATCH OFFSET lv_dot_pos.
   IF sy-subrc = 0.
     lv_frac_off = lv_dot_pos + 1.
-    lv_frac     = cv_value+lv_frac_off.
-    TRANSLATE lv_frac USING '0 '.   "replace every '0' with space
+    lv_frac     = cv_value+lv_frac_off.   " characters after the dot
+    TRANSLATE lv_frac USING '0 '.          " replace every '0' with space
     CONDENSE lv_frac NO-GAPS.
-    IF lv_frac IS INITIAL.          "fraction was all zeros -> integer value
-      cv_value = cv_value(lv_dot_pos).
+    IF lv_frac IS INITIAL.                 " fraction was all zeros => integer
+      cv_value = cv_value(lv_dot_pos).     " keep only the integer part
     ENDIF.
   ENDIF.
 
   gv_len = strlen( cv_value ).
 
   IF gv_len >= 2 AND cv_value+0(1) = '"'.
+
     gv_last_pos = gv_len - 1.
+
     IF cv_value+gv_last_pos(1) = '"'.
       gv_len = gv_len - 2.
       cv_value = cv_value+1(gv_len).
       REPLACE ALL OCCURRENCES OF '""' IN cv_value WITH '"'.
     ENDIF.
+
   ENDIF.
 
 ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form CONVERT_RAW_TO_INPUT
-*& Maps all 54 Excel columns to typed input fields.
 *&---------------------------------------------------------------------*
 FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
                                    pv_rowno TYPE i
@@ -703,85 +813,71 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   CLEAR ps_input.
   pv_ok = abap_true.
 
-  "--- Character fields (direct move) ---
-  ps_input-mbrsh    = ps_raw-mbrsh.    "Col 01
-  ps_input-mtart    = ps_raw-mtart.    "Col 02
-  ps_input-werks    = ps_raw-werks.    "Col 03
-  ps_input-lgort    = ps_raw-lgort.    "Col 04
-  ps_input-vkorg    = ps_raw-vkorg.    "Col 05
-  ps_input-vtweg    = ps_raw-vtweg.    "Col 06
-  ps_input-maktx    = ps_raw-maktx.    "Col 07
-  ps_input-meins    = ps_raw-meins.    "Col 08
-  ps_input-matkl    = ps_raw-matkl.    "Col 09
-  ps_input-spart    = ps_raw-spart.    "Col 10
-  ps_input-gewei    = ps_raw-gewei.    "Col 12
-  ps_input-wrkst    = ps_raw-wrkst.    "Col 14
-  ps_input-sktof    = ps_raw-sktof.    "Col 15
-  ps_input-taxkm1   = ps_raw-taxkm1.  "Col 16
-  ps_input-taxkm2   = ps_raw-taxkm2.  "Col 17
-  ps_input-versg    = ps_raw-versg.    "Col 18
-  ps_input-kondm    = ps_raw-kondm.    "Col 19
-  ps_input-tragr    = ps_raw-tragr.    "Col 20
-  ps_input-ladgr    = ps_raw-ladgr.    "Col 21
-  ps_input-prctr    = ps_raw-prctr.    "Col 22
-  "*-- MTVFP (Availability Check, col 23): SAP expects a 2-char code such as
-  "*-- '02', 'KP', etc.  Excel stores numeric codes (e.g. 2) as a 1-char
-  "*-- string.  Left-pad a single digit with '0' to satisfy the field format
-  "*-- and avoid SAP message 298 (Formatting error in MARC-MTVFP).
+  ps_input-mbrsh    = ps_raw-mbrsh.
+  ps_input-mtart    = ps_raw-mtart.
+  ps_input-werks    = ps_raw-werks.
+  ps_input-lgort    = ps_raw-lgort.
+  ps_input-vkorg    = ps_raw-vkorg.
+  ps_input-vtweg    = ps_raw-vtweg.
+  ps_input-maktx    = ps_raw-maktx.
+  ps_input-meins    = ps_raw-meins.
+  ps_input-matkl    = ps_raw-matkl.
+  ps_input-spart    = ps_raw-spart.
+  ps_input-gewei    = ps_raw-gewei.
+  ps_input-wrkst    = ps_raw-wrkst.
+  ps_input-sktof    = ps_raw-sktof.
+  ps_input-taxkm1   = ps_raw-taxkm1.
+  ps_input-taxkm2   = ps_raw-taxkm2.
+  ps_input-versg    = ps_raw-versg.
+  ps_input-kondm    = ps_raw-kondm.
+  ps_input-tragr    = ps_raw-tragr.
+  ps_input-ladgr    = ps_raw-ladgr.
+  ps_input-prctr    = ps_raw-prctr.
+  "*-- FIX 1 (MTVFP format): MARC-MTVFP is a 2-char code (e.g. "02", "KP").
+  "*-- Excel stores numeric codes as integers (2, 3 …) which arrive as the
+  "*-- 1-char string "2" after CLEAN_TOKEN strips the ".0" float suffix.
+  "*-- Assigning "2" to TYPE c LENGTH 2 gives "2 " (space-padded), which SAP
+  "*-- rejects with msg 298. Left-pad single digits to produce the correct
+  "*-- 2-char code ("02") before the BDC field is populated.
   IF strlen( ps_raw-mtvfp ) = 1 AND ps_raw-mtvfp CO '0123456789'.
     CONCATENATE '0' ps_raw-mtvfp INTO ps_input-mtvfp.
   ELSE.
-    ps_input-mtvfp = ps_raw-mtvfp.    "Col 23
+    ps_input-mtvfp = ps_raw-mtvfp.
   ENDIF.
-  "*-- Pre-validate MTVFP against T441 so the BDC is never called with a
-  "*-- code that doesn't exist - gives a clear error instead of msg 298/278.
-  IF ps_input-mtvfp IS NOT INITIAL.
-    PERFORM check_mtvfp_t441 USING ps_input-mtvfp pv_rowno CHANGING pv_ok.
-  ENDIF.
-  ps_input-xchpf    = ps_raw-xchpf.    "Col 24
-  "*-- STEUC (Control Code / HSN, col 25): validated against T604F at the
-  "*-- SAP screen level (msg 058 if entry missing).  Pre-validate here so
-  "*-- the BDC is never called with an invalid HSN and the user receives a
-  "*-- clear message pointing to the correct maintenance transaction.
-  "*-- clean_token has already stripped any Excel float '.0' suffix (msg 298).
-  ps_input-steuc    = ps_raw-steuc.    "Col 25
-  "*-- Pre-validate STEUC against T604F for the plant's country.
-  IF ps_input-steuc IS NOT INITIAL.
-    PERFORM check_steuc_t604f USING ps_input-steuc ps_input-werks pv_rowno CHANGING pv_ok.
-  ENDIF.
-  ps_input-taxim    = ps_raw-taxim.    "Col 26
-  ps_input-dismm    = ps_raw-dismm.    "Col 27
-  ps_input-beskz    = ps_raw-beskz.    "Col 28
-  ps_input-perkz    = ps_raw-perkz.    "Col 29
-  ps_input-iprkz    = ps_raw-iprkz.    "Col 30
-  ps_input-sled_bbd = ps_raw-sled_bbd."Col 31
-  ps_input-qmpur    = ps_raw-qmpur.    "Col 32
-  ps_input-ssqss    = ps_raw-ssqss.    "Col 33
-  ps_input-bklas    = ps_raw-bklas.    "Col 34
-  ps_input-vprsv    = ps_raw-vprsv.    "Col 35
-  ps_input-ekalr    = ps_raw-ekalr.    "Col 38
-  ps_input-hkmat    = ps_raw-hkmat.    "Col 39
-  ps_input-sobsk    = ps_raw-sobsk.    "Col 40
-  ps_input-mlast    = ps_raw-mlast.    "Col 42
-  ps_input-insmk    = ps_raw-insmk.    "Col 50 - MARC-INSMK
-  ps_input-kzdkz    = ps_raw-kzdkz.    "Col 51 - MARC-KZDKZ
-  ps_input-ncost    = ps_raw-ncost.    "Col 52 - MARC-NCOST
-  ps_input-qpls_arg = ps_raw-qpls_arg. "Col 53 - RMQAM-ARGUMENT (QPLS popup)
-  ps_input-qpls_art = ps_raw-qpls_art. "Col 54 - RMQAM-ART(01) (QPLS popup)
+  ps_input-xchpf    = ps_raw-xchpf.
+  ps_input-steuc    = ps_raw-steuc.   " float ".0" already stripped by clean_token
+  ps_input-taxim    = ps_raw-taxim.
+  ps_input-dismm    = ps_raw-dismm.
+  ps_input-beskz    = ps_raw-beskz.
+  ps_input-perkz    = ps_raw-perkz.
+  ps_input-iprkz    = ps_raw-iprkz.
+  ps_input-sled_bbd = ps_raw-sled_bbd.
+  ps_input-qmpur    = ps_raw-qmpur.
+  ps_input-ssqss    = ps_raw-ssqss.
+  ps_input-bklas    = ps_raw-bklas.
+  ps_input-vprsv    = ps_raw-vprsv.
+  ps_input-ekalr    = ps_raw-ekalr.
+  ps_input-hkmat    = ps_raw-hkmat.
+  ps_input-sobsk    = ps_raw-sobsk.
+  ps_input-mlast    = ps_raw-mlast.
+  ps_input-insmk    = ps_raw-insmk.
+  ps_input-kzdkz    = ps_raw-kzdkz.
+  ps_input-ncost    = ps_raw-ncost.
+  ps_input-qpls_arg = ps_raw-qpls_arg.
+  ps_input-qpls_art = ps_raw-qpls_art.
 
-  "--- Packed/numeric fields (via move_numeric) ---
-  PERFORM move_numeric USING ps_raw-brgew  'BRGEW'  pv_rowno CHANGING ps_input-brgew  pv_ok. "Col 11
-  PERFORM move_numeric USING ps_raw-ntgew  'NTGEW'  pv_rowno CHANGING ps_input-ntgew  pv_ok. "Col 13
-  PERFORM move_numeric USING ps_raw-stprs  'STPRS'  pv_rowno CHANGING ps_input-stprs  pv_ok. "Col 36
-  PERFORM move_numeric USING ps_raw-peinh  'PEINH'  pv_rowno CHANGING ps_input-peinh  pv_ok. "Col 37
-  PERFORM move_numeric USING ps_raw-losgr  'LOSGR'  pv_rowno CHANGING ps_input-losgr  pv_ok. "Col 41
-  PERFORM move_numeric USING ps_raw-stprs1 'STPRS1' pv_rowno CHANGING ps_input-stprs1 pv_ok. "Col 43
-  PERFORM move_numeric USING ps_raw-stprs2 'STPRS2' pv_rowno CHANGING ps_input-stprs2 pv_ok. "Col 44
-  PERFORM move_numeric USING ps_raw-stprs3 'STPRS3' pv_rowno CHANGING ps_input-stprs3 pv_ok. "Col 45
-  PERFORM move_numeric USING ps_raw-peinh1 'PEINH1' pv_rowno CHANGING ps_input-peinh1 pv_ok. "Col 46
-  PERFORM move_numeric USING ps_raw-peinh2 'PEINH2' pv_rowno CHANGING ps_input-peinh2 pv_ok. "Col 47
-  PERFORM move_numeric USING ps_raw-peinh3 'PEINH3' pv_rowno CHANGING ps_input-peinh3 pv_ok. "Col 48
-  PERFORM move_numeric USING ps_raw-verpr  'VERPR'  pv_rowno CHANGING ps_input-verpr  pv_ok. "Col 49
+  PERFORM move_numeric USING ps_raw-brgew  'BRGEW'  pv_rowno CHANGING ps_input-brgew  pv_ok.
+  PERFORM move_numeric USING ps_raw-ntgew  'NTGEW'  pv_rowno CHANGING ps_input-ntgew  pv_ok.
+  PERFORM move_numeric USING ps_raw-stprs  'STPRS'  pv_rowno CHANGING ps_input-stprs  pv_ok.
+  PERFORM move_numeric USING ps_raw-peinh  'PEINH'  pv_rowno CHANGING ps_input-peinh  pv_ok.
+  PERFORM move_numeric USING ps_raw-losgr  'LOSGR'  pv_rowno CHANGING ps_input-losgr  pv_ok.
+  PERFORM move_numeric USING ps_raw-stprs1 'STPRS1' pv_rowno CHANGING ps_input-stprs1 pv_ok.
+  PERFORM move_numeric USING ps_raw-stprs2 'STPRS2' pv_rowno CHANGING ps_input-stprs2 pv_ok.
+  PERFORM move_numeric USING ps_raw-stprs3 'STPRS3' pv_rowno CHANGING ps_input-stprs3 pv_ok.
+  PERFORM move_numeric USING ps_raw-peinh1 'PEINH1' pv_rowno CHANGING ps_input-peinh1 pv_ok.
+  PERFORM move_numeric USING ps_raw-peinh2 'PEINH2' pv_rowno CHANGING ps_input-peinh2 pv_ok.
+  PERFORM move_numeric USING ps_raw-peinh3 'PEINH3' pv_rowno CHANGING ps_input-peinh3 pv_ok.
+  PERFORM move_numeric USING ps_raw-verpr  'VERPR'  pv_rowno CHANGING ps_input-verpr  pv_ok.
 
 ENDFORM.
 
@@ -797,7 +893,7 @@ FORM move_numeric USING    pv_value TYPE string
   CLEAR gv_numtext.
   gv_numtext = pv_value.
 
-  SHIFT gv_numtext LEFT  DELETING LEADING  space.
+  SHIFT gv_numtext LEFT  DELETING LEADING space.
   SHIFT gv_numtext RIGHT DELETING TRAILING space.
   CONDENSE gv_numtext NO-GAPS.
 
@@ -810,150 +906,48 @@ FORM move_numeric USING    pv_value TYPE string
 
   TRY.
       cv_num = gv_numtext.
+
     CATCH cx_sy_conversion_no_number cx_sy_conversion_overflow.
+
       CLEAR gv_text.
-      CONCATENATE 'Invalid numeric value in' pv_field ':' pv_value
+      CONCATENATE 'Invalid numeric value in field'
+                  pv_field
+                  ':'
+                  pv_value
              INTO gv_text SEPARATED BY space.
+
       PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
+
       cv_ok = abap_false.
+
   ENDTRY.
 
 ENDFORM.
 
 *&---------------------------------------------------------------------*
-*& Form CHECK_MTVFP_T441
-*& Pre-validates the Availability Check Group code against table T441.
-*& Avoids SAP messages 298 (Formatting error) + 278 (mandatory field)
-*& from the BDC and replaces them with a clear, actionable pre-run error.
-*&
-*& Root cause of 298/278 for MARC-MTVFP:
-*&  - Excel numeric cell (e.g. 2) arrives as "2.0" -> clean_token strips
-*&    to "2" -> padded to "02" in convert_raw_to_input.
-*&  - If the padded value ("02", "01", etc.) is still not in T441 the
-*&    BDC would fail with 298+278.  This form surfaces that early.
+*& Form BUILD_BDC   ***  REBUILT FROM YOUR SHDB RECORDING  ***
 *&---------------------------------------------------------------------*
-FORM check_mtvfp_t441 USING    pv_mtvfp TYPE marc-mtvfp
-                               pv_rowno TYPE i
-                      CHANGING pv_ok    TYPE abap_bool.
-
-  DATA lv_mtvfp TYPE marc-mtvfp.   " same domain as t441-mtvfp (CHAR 2)
-
-  TRY.
-      SELECT SINGLE mtvfp FROM t441 INTO lv_mtvfp WHERE mtvfp = pv_mtvfp.
-    CATCH cx_sy_open_sql_error.
-      RETURN.  " T441 inaccessible - skip check, let BDC surface the error
-  ENDTRY.
-
-  IF sy-subrc <> 0.
-    CONCATENATE 'MARC-MTVFP "' pv_mtvfp
-                '" does not exist in T441 (Availability Check Groups).'
-                ' Correct col 23 in the Excel template or add the code'
-                ' in SPRO > MM > Plant Params > Avail. Check.'
-      INTO gv_text SEPARATED BY space.
-    PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
-    pv_ok = abap_false.
-  ENDIF.
-
-ENDFORM.
-
-*&---------------------------------------------------------------------*
-*& Form CHECK_STEUC_T604F
-*& Pre-validates the HSN / commodity code against table T604F for the
-*& plant's country.  Avoids SAP messages 298 + 058 from the BDC and
-*& replaces them with a clear, actionable pre-run error that tells the
-*& user exactly which entry to create and which transaction to use.
+*& This mirrors the screen sequence captured in your SHDB recording,
+*& with the hard-coded test values replaced by the template fields.
 *&
-*& Root cause of 298/058 for MARC-STEUC:
-*&  - "298 Formatting error ... see next message" is a wrapper message;
-*&    the real failure is "058 Entry IN <code> does not exist in T604F".
-*&  - The float notation fix in clean_token removes "38089299.0" -> "38089299"
-*&    (eliminates 298 from bad format).
-*&  - The 058 error itself means the HSN entry is missing in T604F.
-*&    Create it via SM30 > V_T604F or transaction VEN3 for country = LAND1
-*&    of the plant, then re-run the BDC.
-*&---------------------------------------------------------------------*
-FORM check_steuc_t604f USING    pv_steuc TYPE marc-steuc
-                                pv_werks TYPE marc-werks
-                                pv_rowno TYPE i
-                       CHANGING pv_ok    TYPE abap_bool.
-
-  DATA: lv_land1  TYPE t001w-land1,
-        lv_zollnr TYPE t604f-zollnr,
-        lv_dummy  TYPE t604f-zollnr.
-
-  " Determine plant country from T001W
-  SELECT SINGLE land1 FROM t001w INTO lv_land1 WHERE werks = pv_werks.
-  IF sy-subrc <> 0 OR lv_land1 IS INITIAL.
-    RETURN.  " Cannot determine country - let BDC surface any error
-  ENDIF.
-
-  lv_zollnr = pv_steuc.  " widen 16-char STEUC to T604F-ZOLLNR field length
-
-  TRY.
-      SELECT SINGLE zollnr FROM t604f INTO lv_dummy
-        WHERE land1 = lv_land1
-          AND zollnr = lv_zollnr.
-    CATCH cx_sy_open_sql_error.
-      RETURN.  " T604F inaccessible - skip check, let BDC surface the error
-  ENDTRY.
-
-  IF sy-subrc <> 0.
-    CONCATENATE 'MARC-STEUC (HSN) "' pv_steuc
-                '" does not exist in T604F for country' lv_land1
-                '(plant' pv_werks ').'
-                ' Create the commodity-code entry via SM30 > V_T604F'
-                ' or transaction VEN3, then re-run the BDC.'
-      INTO gv_text SEPARATED BY space.
-    PERFORM add_error USING pv_rowno p_matnr 'E' 'LOCAL' '000' gv_text.
-    pv_ok = abap_false.
-  ENDIF.
-
-ENDFORM.
-
-*&---------------------------------------------------------------------*
-*& Form BUILD_BDC
-*&---------------------------------------------------------------------*
-*& Complete screen sequence confirmed from SHDB recording + template:
+*& Key facts taken from the recording:
+*&  - Initial screen 0060 OKCODE is =ENTR (not =AUSW).
+*&  - View selection 0070 is paged: several /00 steps, final =SCHL.
+*&  - Org levels on 0080, OKCODE =ENTR.
+*&  - Data views alternate dynpro 4004 and 4000 (NOT all 4004).
+*&  - Price fields use CKMMAT_DISPLAY (double M), not CKMAT_DISPLAY.
+*&  - Save is confirmed via SAPLSPO1 0300 with OKCODE =YES (no =BU).
 *&
-*&  0060 Initial screen
-*&  0070 View page 1  (=P+ scroll)
-*&  0070 View page 2  (=SCHL close)
-*&  0080 Org levels
-*&  4004 Basic Data 1
-*&  4004 Basic Data 2             WRKST
-*&  4000 Sales Org 1  pass 1/4    SKTOF, TAXKM1, TAXKM2
-*&  4000 Sales Org 1  pass 2/4    re-display: SKTOF, TAXKM2
-*&  4000 Sales Org 1  pass 3/4    re-display: SKTOF, TAXKM2
-*&  4000 Sales Org 1  pass 4/4    navigate to Org 2
-*&  4000 Sales Org 2              VERSG, KONDM
-*&  4004 Sales Gen/Plant          MTVFP, XCHPF, TRAGR, LADGR, PRCTR
-*&  4004 Int'l Trade Export       STEUC
-*&  4000 Purchasing               MG03STEUMM-TAXIM (no index suffix)
-*&  4000 MRP 1                    DISMM
-*&  4000 MRP 2                    BESKZ
-*&  4000 MRP 3                    PERKZ, MTVFP
-*&  4000 MRP 4                    navigation only
-*&  4000 Gen Plant/Storage 1      IPRKZ, SLED_BBD
-*&  4000 Gen Plant/Storage 2      navigation only
-*&  4000 Quality Management       QMPUR, INSMK, KZDKZ, SSQSS
-*&  [QPLS popup - conditional]    QPLS_ARG, QPLS_ART (if filled)
-*&  4000 Costing 1  pass 1/3      MLAST, STPRS1, PEINH1
-*&  4000 Costing 1  pass 2/3      MLAST, all STPRS/PEINH
-*&  4000 Costing 1  pass 3/3      BKLAS + all STPRS/PEINH
-*&  4000 Costing navigation       navigation only
-*&  4000 Costing 2                EKALR, HKMAT, SOBSK, LOSGR, NCOST
-*&  4000 Accounting 1             VPRSV, BKLAS, STPRS, PEINH (VERPR if V)
-*&  4000 Accounting 2             navigation only (view is selected)
-*&  0300 Save popup               =YES
+*& De-duplication: the raw recording re-displayed a few screens (the
+*& Sales Org 1 and Costing screens appeared several times because of
+*& Enter re-confirmations). Each distinct view is emitted ONCE here.
 *&
-*& COSTING FIELD NOTE: Screen field is CKMMAT_DISPLAY (double-M) from
-*&  SHDB recording. The Excel template header shows CKMAT_DISPLAY
-*&  (single-M) as a documentation label only - it does not affect the
-*&  column-to-variable mapping which is done by position.
+*& Fields INSMK / KZDKZ / NCOST / QPLS_ARG / QPLS_ART and the QPLS
+*& popup were NOT in your recording, so they are not posted. If you
+*& need them, re-record with those fields/views maintained.
 *&
-*& QPLS POPUP NOTE: If QPLS_ARG / QPLS_ART are filled, the QM screen
-*&  triggers an inspection-plan popup. Add the exact program/dynpro
-*&  from your SHDB re-recording if you need this popup handled.
+*& Each field is set only on the FIRST view where it is input-ready,
+*& to avoid "field not ready for input" errors on later (display) views.
 *&---------------------------------------------------------------------*
 FORM build_bdc USING ps_input TYPE ty_input.
 
@@ -964,366 +958,255 @@ FORM build_bdc USING ps_input TYPE ty_input.
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0060.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'RMMG1-MTART'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
   PERFORM bdc_field  USING 'RMMG1-MBRSH' ps_input-mbrsh.
   PERFORM bdc_field  USING 'RMMG1-MTART' ps_input-mtart.
+
   IF p_matnr IS NOT INITIAL.
     PERFORM bdc_field USING 'RMMG1-MATNR' p_matnr.
   ENDIF.
 
-  "===============================================================
-  " 0070 - View Selection  PAGE 1  (absolute rows 1-10 visible)
-  "
-  " Row  View                       Selected
-  "  01  Basic Data 1               YES
-  "  02  Basic Data 2               YES
-  "  03  Classification             skip
-  "  04  Sales: Org Data 1          YES
-  "  05  Sales: Org Data 2          YES
-  "  06  Sales: General/Plant       YES
-  "  07  Extended SPP Basic Data    skip
-  "  08  Int'l Trade: Export        YES
-  "  09  Sales Text                 skip  (no text screen needed)
-  "  10  Purchasing                 YES
-  "  11  Int'l Trade: Import        skip  (visible but not selected)
-  "  12  Purchase Order Text        skip  (visible but not selected)
-  "
-  " Cursor at last selected visible row (10). Scroll with =P+.
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(10)'.
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(01)' c_x.  "Basic Data 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(02)' c_x.  "Basic Data 2
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(04)' c_x.  "Sales: Org Data 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(05)' c_x.  "Sales: Org Data 2
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(06)' c_x.  "Sales: General/Plant
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(08)' c_x.  "Int'l Trade: Export
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(10)' c_x.  "Purchasing
-  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_p_plus. "scroll
+  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
+
+
+*---------------------------------------------------------------------*
+* Initial Screen
+*---------------------------------------------------------------------*
+  PERFORM bdc_dynpro USING c_prog_mm '0060'.
+  PERFORM bdc_field USING 'RMMG1-MBRSH' 'C'.
+  PERFORM bdc_field USING 'RMMG1-MTART' 'ROH'.
+  PERFORM bdc_field USING 'BDC_OKCODE' '=ENTR'.
+
 
   "===============================================================
-  " 0070 - View Selection  PAGE 2  (relative rows restart at MRP 1)
-  "
-  " Rel  Absolute view               Selected
-  "  01  MRP 1                       YES
-  "  02  MRP 2                       YES
-  "  03  MRP 3                       YES
-  "  04  MRP 4                       YES
-  "  05  Advanced Planning           skip
-  "  06  Extended SPP                skip
-  "  07  Forecasting                 skip
-  "  08  Gen Plant Data/Storage 1    YES
-  "  09  Gen Plant Data/Storage 2    YES
-  "  10  Warehouse Mgmt 1            skip
-  "  11  Warehouse Mgmt 2            skip
-  "  12  Quality Management          YES
-  "  13  Accounting 1                YES
-  "  14  Accounting 2                YES  (confirmed from image)
-  "  15  Costing 1                   YES
-  "  16  Costing 2                   YES
-  "  17  WM Execution                skip
-  "
-  " Cursor at last selected row (16). =SCHL closes the dialog.
+  " 0070 - Select View(s) - Page 1
+  " Select only first visible required views
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(16)'.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(10)'.
+
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(01)' c_x.  "Basic Data 1
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(02)' c_x.  "Basic Data 2
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(04)' c_x.  "Sales: Sales Org. Data 1
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(05)' c_x.  "Sales: Sales Org. Data 2
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(06)' c_x.  "Sales: General/Plant Data
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(08)' c_x.  "International Trade: Export
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(10)' c_x.  "Purchasing
+
+  "Do not select Sales Text and Purchase Order Text
+
+  "Scroll down to next list page
+  PERFORM bdc_field  USING 'BDC_OKCODE' '=P+'.
+
+
+  "===============================================================
+  " 0070 - Select View(s) - Page 2 after scroll down
+  " Attached page selection only
+  "===============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(16)'.
+
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(01)' c_x.  "MRP 1
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(02)' c_x.  "MRP 2
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(03)' c_x.  "MRP 3
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(04)' c_x.  "MRP 4
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(08)' c_x.  "Gen Plant/Storage 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(09)' c_x.  "Gen Plant/Storage 2
+
+
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(08)' c_x.  "General Plant Data / Storage 1
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(09)' c_x.  "General Plant Data / Storage 2
+
+
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(12)' c_x.  "Quality Management
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(13)' c_x.  "Accounting 1
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(14)' c_x.  "Accounting 2
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(15)' c_x.  "Costing 1
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(16)' c_x.  "Costing 2
-  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_schl. "close
+
+  "Confirm selected views and go to organizational level screen
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_schl.
 
   "===============================================================
-  " 0080 - Organisational Levels
+  " 0080 - Organizational Levels
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0080.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'RMMG1-VTWEG'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
   PERFORM bdc_field  USING 'RMMG1-WERKS' ps_input-werks.
   PERFORM bdc_field  USING 'RMMG1-LGORT' ps_input-lgort.
   PERFORM bdc_field  USING 'RMMG1-VKORG' ps_input-vkorg.
   PERFORM bdc_field  USING 'RMMG1-VTWEG' ps_input-vtweg.
+  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
 
   "===============================================================
-  " 4004 - Basic Data 1
+  " Basic Data 1  (4004)
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARA-NTGEW'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MAKT-MAKTX'  ps_input-maktx.
-  PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
-  PERFORM bdc_field  USING 'MARA-MATKL'  ps_input-matkl.
-  PERFORM bdc_field  USING 'MARA-SPART'  ps_input-spart.
-  PERFORM bdc_num    USING 'MARA-BRGEW'  ps_input-brgew.
-  PERFORM bdc_field  USING 'MARA-GEWEI'  ps_input-gewei.
-  PERFORM bdc_num    USING 'MARA-NTGEW'  ps_input-ntgew.
+  PERFORM bdc_field  USING 'MAKT-MAKTX' ps_input-maktx.
+  PERFORM bdc_field  USING 'MARA-MEINS' ps_input-meins.
+  PERFORM bdc_field  USING 'MARA-MATKL' ps_input-matkl.
+  PERFORM bdc_field  USING 'MARA-SPART' ps_input-spart.
+  PERFORM bdc_num    USING 'MARA-BRGEW' ps_input-brgew.
+  PERFORM bdc_field  USING 'MARA-GEWEI' ps_input-gewei.
+  PERFORM bdc_num    USING 'MARA-NTGEW' ps_input-ntgew.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " 4004 - Basic Data 2  (WRKST - Basic/Raw Material)
+  " Basic Data 2  (4004)  -> WRKST
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARA-WRKST'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MARA-WRKST'  ps_input-wrkst.
+  PERFORM bdc_field  USING 'MARA-WRKST' ps_input-wrkst.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " 4000 - Sales Org 1  pass 1/4  (initial data entry)
-  " SAP re-displays 3 more times to confirm tax category entries.
+  " Sales: Sales Org 1  (4000)  -> SKTOF, TAXKM1, TAXKM2
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'            'MG03STEUER-TAXKM(02)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'            c_ok_enter.
-  PERFORM bdc_field  USING 'MVKE-SKTOF'            ps_input-sktof.
-  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(01)'  ps_input-taxkm1.
-  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)'  ps_input-taxkm2.
+  PERFORM bdc_field  USING 'MVKE-SKTOF'           ps_input-sktof.
+  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(01)' ps_input-taxkm1.
+  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)' ps_input-taxkm2.
+  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
 
   "===============================================================
-  " 4000 - Sales Org 1  pass 2/4  (re-display - confirm TAXKM2)
+  " Sales: Sales Org 2  (4000)  -> VERSG, KONDM
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'            'MG03STEUER-TAXKM(02)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'            c_ok_enter.
-  PERFORM bdc_field  USING 'MVKE-SKTOF'            ps_input-sktof.
-  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)'  ps_input-taxkm2.
+  PERFORM bdc_field  USING 'MVKE-VERSG' ps_input-versg.
+  PERFORM bdc_field  USING 'MVKE-KONDM' ps_input-kondm.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+
 
   "===============================================================
-  " 4000 - Sales Org 1  pass 3/4  (re-display - confirm again)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'            'MG03STEUER-TAXKM(02)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'            c_ok_enter.
-  PERFORM bdc_field  USING 'MVKE-SKTOF'            ps_input-sktof.
-  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)'  ps_input-taxkm2.
-
-  "===============================================================
-  " 4000 - Sales Org 1  pass 4/4  (navigate to Sales Org 2)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MVKE-SKTOF'  ps_input-sktof.
-
-  "===============================================================
-  " 4000 - Sales Org 2  (VERSG, KONDM)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MVKE-KONDM'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MVKE-VERSG'  ps_input-versg.
-  PERFORM bdc_field  USING 'MVKE-KONDM'  ps_input-kondm.
-
-  "===============================================================
-  " 4004 - Sales: General / Plant  (MTVFP, XCHPF, TRAGR, LADGR, PRCTR)
+  " Sales: General / Plant  (4004)
+  " MTVFP, XCHPF, TRAGR, LADGR, PRCTR
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-XCHPF'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MARC-MTVFP'  ps_input-mtvfp.
-  PERFORM bdc_field  USING 'MARC-XCHPF'  ps_input-xchpf.
-  PERFORM bdc_field  USING 'MARA-TRAGR'  ps_input-tragr.
-  PERFORM bdc_field  USING 'MARC-LADGR'  ps_input-ladgr.
-  PERFORM bdc_field  USING 'MARC-PRCTR'  ps_input-prctr.
+  PERFORM bdc_field  USING 'MARC-MTVFP' ps_input-mtvfp.
+  PERFORM bdc_field  USING 'MARC-XCHPF' ps_input-xchpf.
+  PERFORM bdc_field  USING 'MARA-TRAGR' ps_input-tragr.
+  PERFORM bdc_field  USING 'MARC-LADGR' ps_input-ladgr.
+  PERFORM bdc_field  USING 'MARC-PRCTR' ps_input-prctr.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " 4004 - International Trade: Export  (STEUC - Control Code/HSN)
-  " Note: msg 058 'Entry XX nnnn does not exist in T604F' is a master-data
-  " error, not a code error. The HSN code must exist in T604F for country XX
-  " (e.g. via transaction VEN3 or SM30 on view V_T604F) before this BDC runs.
+  " Foreign Trade / Export  (4004)  -> STEUC
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-STEUC'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MARC-STEUC'  ps_input-steuc.
+  PERFORM bdc_field  USING 'MARC-STEUC' ps_input-steuc.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " 4000 - Purchasing  (MG03STEUMM-TAXIM - no (01) suffix)
-  " Sales Text and PO Text are NOT selected so no text screens appear.
+  " Purchasing / Tax indicator  (4000)  -> TAXIM
+  " Purchase Order Text is not selected, so no PO Text screen here.
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'       'MG03STEUMM-TAXIM'.
+  PERFORM bdc_field  USING 'MG03STEUMM-TAXIM(01)' ps_input-taxim.
   PERFORM bdc_field  USING 'BDC_OKCODE'       c_ok_enter.
-  PERFORM bdc_field  USING 'MG03STEUMM-TAXIM' ps_input-taxim.
+
 
   "===============================================================
-  " 4000 - MRP 1  (DISMM - MRP Type)
-  " Cursor at T438T-DIBEZ (MRP type text field, from recording).
-  " SAP fires msg 072 'Enter the MRP type' when DISMM is blank.
+  " Costing 1 (4000) -> BKLAS, MLAST, CKMMAT prices
+  " NOTE: price fields are CKMMAT_DISPLAY (double M)
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'T438T-DIBEZ'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MARC-DISMM'  ps_input-dismm.
+  PERFORM bdc_field  USING 'MBEW-BKLAS'             ps_input-bklas.
+  PERFORM bdc_field  USING 'CKMLHD-MLAST'           ps_input-mlast.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_1' ps_input-stprs1.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_2' ps_input-stprs2.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_3' ps_input-stprs3.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_1' ps_input-peinh1.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_2' ps_input-peinh2.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_3' ps_input-peinh3.
+  PERFORM bdc_field  USING 'BDC_OKCODE'             c_ok_enter.
 
   "===============================================================
-  " 4000 - MRP 2  (BESKZ - Procurement Type)
+  " Costing navigation (4000) - no template fields
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-BESKZ'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MARC-BESKZ'  ps_input-beskz.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " 4000 - MRP 3  (PERKZ, MTVFP - MTVFP also appears here per recording)
+  " Costing 2 (4000) -> EKALR, HKMAT, SOBSK, LOSGR
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MARC-PERKZ'  ps_input-perkz.
-  PERFORM bdc_field  USING 'MARC-MTVFP'  ps_input-mtvfp.
-
-  "===============================================================
-  " 4000 - MRP 4  (navigation only)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-
-  "===============================================================
-  " 4000 - General Plant Data / Storage 1  (IPRKZ, SLED_BBD)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'     'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'     c_ok_enter.
-  PERFORM bdc_field  USING 'MARA-IPRKZ'     ps_input-iprkz.
-  PERFORM bdc_field  USING 'MARA-SLED_BBD'  ps_input-sled_bbd.
-
-  "===============================================================
-  " 4000 - General Plant Data / Storage 2  (navigation only)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-
-  "===============================================================
-  " 4000 - Quality Management
-  "   MARA-QMPUR  QM Procurement Active       (Col 32)
-  "   MARC-INSMK  Inspection Stock Indicator  (Col 50)  <-- NEW
-  "   MARC-KZDKZ  Post to Inspection Stock    (Col 51)  <-- NEW
-  "   MARC-SSQSS  QM Control Key              (Col 33)
-  " NOTE: If QPLS_ARG/QPLS_ART are filled an inspection-plan popup
-  " may appear after this screen. See the conditional block below.
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-SSQSS'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MARA-QMPUR'  ps_input-qmpur.
-  PERFORM bdc_field  USING 'MARC-INSMK'  ps_input-insmk.
-  PERFORM bdc_field  USING 'MARC-KZDKZ'  ps_input-kzdkz.
-  PERFORM bdc_field  USING 'MARC-SSQSS'  ps_input-ssqss.
-
-  "===============================================================
-  " QPLS Inspection Plan Popup  (conditional)
-  " Appears when SSQSS requires an inspection plan selection.
-  " Exact program/screen must be confirmed with an SHDB re-recording
-  " that includes the QPLS popup interaction. Uncomment and fill in
-  " the correct c_prog_xxx/c_scr_xxx values after re-recording.
-  "===============================================================
-  IF ps_input-qpls_arg IS NOT INITIAL OR ps_input-qpls_art IS NOT INITIAL.
-*   PERFORM bdc_dynpro USING '<PROG>' '<SCR>'.     "<-- get from SHDB
-*   PERFORM bdc_field  USING 'RMQAM-ARGUMENT' ps_input-qpls_arg.
-*   PERFORM bdc_field  USING 'RMQAM-ART(01)'  ps_input-qpls_art.
-*   PERFORM bdc_field  USING 'BDC_OKCODE'     c_ok_enter.
-  ENDIF.
-
-  "===============================================================
-  " 4000 - Costing 1  pass 1/3  (initial: MLAST + STPRS1/PEINH1)
-  " Screen field: CKMMAT_DISPLAY (double-M, from SHDB recording).
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'                'CKMMAT_DISPLAY-STPRS_1'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'                c_ok_enter.
-  PERFORM bdc_field  USING 'CKMLHD-MLAST'              ps_input-mlast.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_1'    ps_input-stprs1.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_1'    ps_input-peinh1.
-
-  "===============================================================
-  " 4000 - Costing 1  pass 2/3  (confirm all period prices)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'                'MBEW-BKLAS'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'                c_ok_enter.
-  PERFORM bdc_field  USING 'CKMLHD-MLAST'              ps_input-mlast.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_1'    ps_input-stprs1.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_2'    ps_input-stprs2.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_3'    ps_input-stprs3.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_1'    ps_input-peinh1.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_2'    ps_input-peinh2.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_3'    ps_input-peinh3.
-
-  "===============================================================
-  " 4000 - Costing 1  pass 3/3  (set BKLAS + confirm all prices)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'                'MBEW-BKLAS'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'                c_ok_enter.
-  PERFORM bdc_field  USING 'MBEW-BKLAS'                ps_input-bklas.
-  PERFORM bdc_field  USING 'CKMLHD-MLAST'              ps_input-mlast.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_1'    ps_input-stprs1.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_2'    ps_input-stprs2.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_3'    ps_input-stprs3.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_1'    ps_input-peinh1.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_2'    ps_input-peinh2.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_3'    ps_input-peinh3.
-
-  "===============================================================
-  " 4000 - Costing navigation  (navigation only)
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-
-  "===============================================================
-  " 4000 - Costing 2  (EKALR, HKMAT, SOBSK, LOSGR, NCOST)
-  "   MARC-NCOST  Do Not Cost Material  (Col 52)  <-- NEW
-  "===============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-SOBSK'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MBEW-EKALR'  ps_input-ekalr.
-  PERFORM bdc_field  USING 'MBEW-HKMAT'  ps_input-hkmat.
+  PERFORM bdc_field  USING 'MBEW-EKALR' ps_input-ekalr.
+  PERFORM bdc_field  USING 'MBEW-HKMAT' ps_input-hkmat.
   IF ps_input-sobsk IS NOT INITIAL.
     PERFORM bdc_field USING 'MARC-SOBSK' ps_input-sobsk.
   ENDIF.
-  PERFORM bdc_num    USING 'MARC-LOSGR'  ps_input-losgr.
-  PERFORM bdc_field  USING 'MARC-NCOST'  ps_input-ncost.
+  PERFORM bdc_num    USING 'MARC-LOSGR' ps_input-losgr.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " 4000 - Accounting 1  (VPRSV, BKLAS, STPRS, PEINH)
-  " VERPR posted only when VPRSV = 'V' (moving average price).
+  " Accounting 1 / Valuation (4000)
+  " VPRSV, STPRS, PEINH  (VERPR only if VPRSV = 'V')
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MBEW-BKLAS'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
-  PERFORM bdc_field  USING 'MBEW-VPRSV'  ps_input-vprsv.
-  PERFORM bdc_field  USING 'MBEW-BKLAS'  ps_input-bklas.
-  PERFORM bdc_num    USING 'MBEW-STPRS'  ps_input-stprs.
-  PERFORM bdc_num    USING 'MBEW-PEINH'  ps_input-peinh.
+  PERFORM bdc_field  USING 'MBEW-VPRSV' ps_input-vprsv.
+  PERFORM bdc_num    USING 'MBEW-STPRS' ps_input-stprs.
+  PERFORM bdc_num    USING 'MBEW-PEINH' ps_input-peinh.
   IF ps_input-vprsv = 'V'.
     PERFORM bdc_num USING 'MBEW-VERPR' ps_input-verpr.
   ENDIF.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " 4000 - Accounting 2  (navigation only)
-  " Accounting 2 is selected in the view dialog so SAP displays it.
+  " MRP 1  (4000)  -> DISMM
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
+  PERFORM bdc_field  USING 'MARC-DISMM' ps_input-dismm.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
   "===============================================================
-  " SAPLSPO1 0300 - Save confirmation popup  -> YES
+  " MRP 2  (4000)  -> BESKZ
+  "===============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_field  USING 'MARC-BESKZ' ps_input-beskz.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "===============================================================
+  " MRP 3  (4000)  -> PERKZ   (MTVFP already set on Sales Gen/Plant)
+  "===============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_field  USING 'MARC-PERKZ' ps_input-perkz.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "===============================================================
+  " MRP 4 / navigation screen (4000) - no template fields
+  "===============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "===============================================================
+  " Plant data / Storage 1 (4000) -> IPRKZ, SLED_BBD
+  "===============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_field  USING 'MARA-IPRKZ'    ps_input-iprkz.
+  PERFORM bdc_field  USING 'MARA-SLED_BBD' ps_input-sled_bbd.
+  PERFORM bdc_field  USING 'BDC_OKCODE'    c_ok_enter.
+
+  "===============================================================
+  " Storage 2 / navigation (4000) - no template fields
+  "===============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "===============================================================
+  " Quality Management (4000) -> QMPUR, SSQSS
+  "===============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_field  USING 'MARA-QMPUR' ps_input-qmpur.
+  PERFORM bdc_field  USING 'MARC-SSQSS' ps_input-ssqss.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+
+
+  "===============================================================
+  " SAPLSPO1 0300 - Save confirmation popup -> YES
   "===============================================================
   PERFORM bdc_dynpro USING c_prog_spo1 c_scr_spo1.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_yes.
 
 ENDFORM.
+
 
 *&---------------------------------------------------------------------*
 *& Form BDC_DYNPRO
@@ -1341,7 +1224,6 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form BDC_FIELD
-*& Appends only when fval is non-initial, or fnam = BDC_OKCODE/CURSOR.
 *&---------------------------------------------------------------------*
 FORM bdc_field USING pv_fnam LIKE bdcdata-fnam
                      pv_fval TYPE any.
@@ -1360,8 +1242,6 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form BDC_NUM
-*& Formats a packed/numeric value as plain text and appends it.
-*& Zero or blank values are skipped to avoid overwriting SAP defaults.
 *&---------------------------------------------------------------------*
 FORM bdc_num USING pv_fnam LIKE bdcdata-fnam
                    pv_num  TYPE any.
@@ -1370,10 +1250,6 @@ FORM bdc_num USING pv_fnam LIKE bdcdata-fnam
 
   WRITE pv_num TO gv_numtext NO-GROUPING LEFT-JUSTIFIED.
   CONDENSE gv_numtext NO-GAPS.
-
-  IF gv_numtext IS INITIAL OR gv_numtext = '0'.
-    RETURN.
-  ENDIF.
 
   CLEAR gs_bdcdata.
   gs_bdcdata-fnam = pv_fnam.
@@ -1387,7 +1263,10 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 FORM analyze_bdc_messages USING pv_rowno TYPE i.
 
-  CLEAR: gv_row_failed, gv_material.
+  CLEAR:
+    gv_row_failed,
+    gv_material.
+
   gv_row_failed = abap_false.
   gv_material   = p_matnr.
 
@@ -1399,31 +1278,48 @@ FORM analyze_bdc_messages USING pv_rowno TYPE i.
       ENDIF.
     ENDIF.
 
-    IF gs_msgcoll-msgtyp = 'E' OR gs_msgcoll-msgtyp = 'A'.
+    IF gs_msgcoll-msgtyp = 'E'
+       OR gs_msgcoll-msgtyp = 'A'.
+
       gv_row_failed = abap_true.
+
       PERFORM get_message_text USING gs_msgcoll CHANGING gv_msgtext.
-      PERFORM add_error USING pv_rowno gv_material
+
+      PERFORM add_error USING pv_rowno
+                              gv_material
                               gs_msgcoll-msgtyp
                               gs_msgcoll-msgid
                               gs_msgcoll-msgnr
                               gv_msgtext.
+
     ENDIF.
 
   ENDLOOP.
 
   IF gv_call_subrc <> 0 AND gv_row_failed = abap_false.
+
     gv_row_failed = abap_true.
+
     CLEAR gv_subrc_c.
     WRITE gv_call_subrc TO gv_subrc_c LEFT-JUSTIFIED.
     CONDENSE gv_subrc_c.
+
     CLEAR gv_msgtext.
-    CONCATENATE 'CALL TRANSACTION SY-SUBRC =' gv_subrc_c
+    CONCATENATE 'CALL TRANSACTION returned SY-SUBRC ='
+                gv_subrc_c
            INTO gv_msgtext SEPARATED BY space.
-    PERFORM add_error USING pv_rowno gv_material 'E' 'LOCAL' '000' gv_msgtext.
+
+    PERFORM add_error USING pv_rowno
+                            gv_material
+                            'E'
+                            'LOCAL'
+                            '000'
+                            gv_msgtext.
+
   ENDIF.
 
   IF gv_row_failed = abap_true.
-    gv_failed  = gv_failed  + 1.
+    gv_failed = gv_failed + 1.
   ELSE.
     gv_success = gv_success + 1.
   ENDIF.
@@ -1437,8 +1333,14 @@ FORM get_message_text USING    ps_msg  TYPE bdcmsgcoll
                       CHANGING pv_text TYPE ty_msgtext.
 
   CLEAR pv_text.
-  MESSAGE ID ps_msg-msgid TYPE ps_msg-msgtyp NUMBER ps_msg-msgnr
-          WITH ps_msg-msgv1 ps_msg-msgv2 ps_msg-msgv3 ps_msg-msgv4
+
+  MESSAGE ID ps_msg-msgid
+          TYPE ps_msg-msgtyp
+          NUMBER ps_msg-msgnr
+          WITH ps_msg-msgv1
+               ps_msg-msgv2
+               ps_msg-msgv3
+               ps_msg-msgv4
           INTO pv_text.
 
 ENDFORM.
@@ -1502,7 +1404,7 @@ FORM display_errors.
       OTHERS             = 2.
 
   IF sy-subrc <> 0.
-    WRITE: / 'ALV display failed. Debug GT_ERRORS table directly.'.
+    WRITE: / 'ALV display failed. Please debug GT_ERRORS internal table.'.
   ENDIF.
 
 ENDFORM.
@@ -1513,6 +1415,7 @@ ENDFORM.
 FORM build_fieldcat.
 
   REFRESH gt_fieldcat.
+
   PERFORM add_fieldcat USING 'ROWNO'    'Row#'     8.
   PERFORM add_fieldcat USING 'MATERIAL' 'Material' 18.
   PERFORM add_fieldcat USING 'MSGTYP'   'Type'     5.
