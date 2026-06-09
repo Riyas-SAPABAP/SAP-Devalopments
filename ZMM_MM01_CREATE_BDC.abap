@@ -3,66 +3,66 @@
 *& Purpose : MM01 Material Master Creation via BDC from Excel (.xlsx)
 *&
 *& Excel template layout (54 columns, data from row 4 onward):
-*&   Row 1 – Short names  : MBRSH  MTART  WERKS  ... QPLS_ART
-*&   Row 2 – BDC names    : RMMG1-MBRSH  RMMG1-MTART  ... RMQAM-ART(01)
-*&   Row 3 – Descriptions : Industry Sector  Material Type  ...
-*&   Row 4+ – Data rows
+*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... QPLS_ART
+*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... RMQAM-ART(01)
+*&   Row 3  Descriptions  : Industry Sector  Material Type  ...
+*&   Row 4+ Data rows
 *&
-*& Column → BDC-field mapping (positional, must match ty_input_raw):
-*&  01 MBRSH       RMMG1-MBRSH            Industry Sector
-*&  02 MTART       RMMG1-MTART            Material Type
-*&  03 WERKS       RMMG1-WERKS            Plant
-*&  04 LGORT       RMMG1-LGORT            Storage Location
-*&  05 VKORG       RMMG1-VKORG            Sales Organization
-*&  06 VTWEG       RMMG1-VTWEG            Distribution Channel
-*&  07 MAKTX       MAKT-MAKTX             Material Description
-*&  08 MEINS       MARA-MEINS             Base Unit of Measure
-*&  09 MATKL       MARA-MATKL             Material Group
-*&  10 SPART       MARA-SPART             Division
-*&  11 BRGEW       MARA-BRGEW             Gross Weight
-*&  12 GEWEI       MARA-GEWEI             Weight Unit
-*&  13 NTGEW       MARA-NTGEW             Net Weight
-*&  14 WRKST       MARA-WRKST             Basic Material
-*&  15 SKTOF       MVKE-SKTOF             Cash Discount Indicator
-*&  16 TAXKM1      MG03STEUER-TAXKM(01)   Tax Classification 1
-*&  17 TAXKM2      MG03STEUER-TAXKM(02)   Tax Classification 2
-*&  18 VERSG       MVKE-VERSG             Material Statistics Group
-*&  19 KONDM       MVKE-KONDM             Material Pricing Group
-*&  20 TRAGR       MARA-TRAGR             Transportation Group
-*&  21 LADGR       MARC-LADGR             Loading Group
-*&  22 PRCTR       MARC-PRCTR             Profit Center
-*&  23 MTVFP       MARC-MTVFP             Availability Check
-*&  24 XCHPF       MARC-XCHPF             Batch Management Indicator
-*&  25 STEUC       MARC-STEUC             Control Code / HSN
-*&  26 TAXIM       MG03STEUMM-TAXIM       Tax Indicator - Material
-*&  27 DISMM       MARC-DISMM             MRP Type
-*&  28 BESKZ       MARC-BESKZ             Procurement Type
-*&  29 PERKZ       MARC-PERKZ             Period Indicator
-*&  30 IPRKZ       MARA-IPRKZ             SLED Period Indicator
-*&  31 SLED_BBD    MARA-SLED_BBD          Shelf Life / BBD
-*&  32 QMPUR       MARA-QMPUR             QM Procurement Active
-*&  33 SSQSS       MARC-SSQSS             QM Control Key
-*&  34 BKLAS       MBEW-BKLAS             Valuation Class
-*&  35 VPRSV       MBEW-VPRSV             Price Control Indicator
-*&  36 STPRS       MBEW-STPRS             Standard Price
-*&  37 PEINH       MBEW-PEINH             Price Unit
-*&  38 EKALR       MBEW-EKALR             With Quantity Structure
-*&  39 HKMAT       MBEW-HKMAT             Material Origin
-*&  40 SOBSK       MARC-SOBSK             Special Procurement Type
-*&  41 LOSGR       MARC-LOSGR             Costing Lot Size
-*&  42 MLAST       CKMLHD-MLAST           Price Determination
-*&  43 STPRS1      CKMAT_DISPLAY-STPRS_1  Std Price Currency/Period 1
-*&  44 STPRS2      CKMAT_DISPLAY-STPRS_2  Std Price Currency/Period 2
-*&  45 STPRS3      CKMAT_DISPLAY-STPRS_3  Std Price Currency/Period 3
-*&  46 PEINH1      CKMAT_DISPLAY-PEINH_1  Price Unit Currency/Period 1
-*&  47 PEINH2      CKMAT_DISPLAY-PEINH_2  Price Unit Currency/Period 2
-*&  48 PEINH3      CKMAT_DISPLAY-PEINH_3  Price Unit Currency/Period 3
-*&  49 VERPR       MBEW-VERPR             Moving Average Price
-*&  50 INSMK       MARC-INSMK             Inspection Stock Indicator
-*&  51 KZDKZ       MARC-KZDKZ             Post to Inspection Stock
-*&  52 NCOST       MARC-NCOST             Do Not Cost Material
-*&  53 QPLS_ARG    RMQAM-ARGUMENT         Insp Plan Usage
-*&  54 QPLS_ART    RMQAM-ART(01)          Insp Plan Insp Type
+*& Column -> BDC-field mapping (positional, must match ty_input_raw):
+*&  01 MBRSH       RMMG1-MBRSH             Industry Sector
+*&  02 MTART       RMMG1-MTART             Material Type
+*&  03 WERKS       RMMG1-WERKS             Plant
+*&  04 LGORT       RMMG1-LGORT             Storage Location
+*&  05 VKORG       RMMG1-VKORG             Sales Organization
+*&  06 VTWEG       RMMG1-VTWEG             Distribution Channel
+*&  07 MAKTX       MAKT-MAKTX              Material Description
+*&  08 MEINS       MARA-MEINS              Base Unit of Measure
+*&  09 MATKL       MARA-MATKL              Material Group
+*&  10 SPART       MARA-SPART              Division
+*&  11 BRGEW       MARA-BRGEW              Gross Weight
+*&  12 GEWEI       MARA-GEWEI              Weight Unit
+*&  13 NTGEW       MARA-NTGEW              Net Weight
+*&  14 WRKST       MARA-WRKST              Basic Material
+*&  15 SKTOF       MVKE-SKTOF              Cash Discount Indicator
+*&  16 TAXKM1      MG03STEUER-TAXKM(01)    Tax Classification 1
+*&  17 TAXKM2      MG03STEUER-TAXKM(02)    Tax Classification 2
+*&  18 VERSG       MVKE-VERSG              Material Statistics Group
+*&  19 KONDM       MVKE-KONDM              Material Pricing Group
+*&  20 TRAGR       MARA-TRAGR              Transportation Group
+*&  21 LADGR       MARC-LADGR              Loading Group
+*&  22 PRCTR       MARC-PRCTR              Profit Center
+*&  23 MTVFP       MARC-MTVFP              Availability Check
+*&  24 XCHPF       MARC-XCHPF              Batch Management Indicator
+*&  25 STEUC       MARC-STEUC              Control Code / HSN
+*&  26 TAXIM       MG03STEUMM-TAXIM        Tax Indicator - Material
+*&  27 DISMM       MARC-DISMM              MRP Type
+*&  28 BESKZ       MARC-BESKZ              Procurement Type
+*&  29 PERKZ       MARC-PERKZ              Period Indicator
+*&  30 IPRKZ       MARA-IPRKZ              SLED Period Indicator
+*&  31 SLED_BBD    MARA-SLED_BBD           Shelf Life / BBD
+*&  32 QMPUR       MARA-QMPUR              QM Procurement Active
+*&  33 SSQSS       MARC-SSQSS              QM Control Key
+*&  34 BKLAS       MBEW-BKLAS              Valuation Class
+*&  35 VPRSV       MBEW-VPRSV              Price Control Indicator
+*&  36 STPRS       MBEW-STPRS              Standard Price
+*&  37 PEINH       MBEW-PEINH              Price Unit
+*&  38 EKALR       MBEW-EKALR              With Quantity Structure
+*&  39 HKMAT       MBEW-HKMAT              Material Origin
+*&  40 SOBSK       MARC-SOBSK              Special Procurement Type
+*&  41 LOSGR       MARC-LOSGR              Costing Lot Size
+*&  42 MLAST       CKMLHD-MLAST            Price Determination
+*&  43 STPRS1      CKMAT_DISPLAY-STPRS_1   Std Price Currency/Period 1
+*&  44 STPRS2      CKMAT_DISPLAY-STPRS_2   Std Price Currency/Period 2
+*&  45 STPRS3      CKMAT_DISPLAY-STPRS_3   Std Price Currency/Period 3
+*&  46 PEINH1      CKMAT_DISPLAY-PEINH_1   Price Unit Currency/Period 1
+*&  47 PEINH2      CKMAT_DISPLAY-PEINH_2   Price Unit Currency/Period 2
+*&  48 PEINH3      CKMAT_DISPLAY-PEINH_3   Price Unit Currency/Period 3
+*&  49 VERPR       MBEW-VERPR              Moving Average Price
+*&  50 INSMK       MARC-INSMK              Inspection Stock Indicator
+*&  51 KZDKZ       MARC-KZDKZ              Post to Inspection Stock
+*&  52 NCOST       MARC-NCOST              Do Not Cost Material
+*&  53 QPLS_ARG    RMQAM-ARGUMENT          Insp Plan Usage
+*&  54 QPLS_ART    RMQAM-ART(01)           Insp Plan Insp Type
 *&---------------------------------------------------------------------*
 REPORT zmm_mm01_create_bdc.
 
@@ -550,7 +550,7 @@ FORM upload_excel_xlsx.
   ENDLOOP.
 
   IF gt_records IS INITIAL AND gt_errors IS INITIAL.
-    gv_text = 'No valid data rows found – verify data starts from row 4.'.
+    gv_text = 'No valid data rows found. Verify data starts from row 4.'.
     PERFORM add_error USING 0 p_matnr 'E' 'LOCAL' '000' gv_text.
   ENDIF.
 
@@ -558,12 +558,11 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form DETECT_EXCEL_OFFSET
-*& Inspects the first cell of row 1 to determine how many header rows
-*& precede the data:
-*&   'MBRSH'          -> offset 0  (row 1 = short names, data from row 1)
-*&   'RMMG1-MBRSH'    -> offset 1  (row 1 = BDC names,  data from row 2)
-*&   'INDUSTRY SECTOR'-> offset 2  (row 1 = descriptions,data from row 3)
-*&   anything else    -> offset 3  (3 header rows,        data from row 4)
+*& Inspects first cell of row 1:
+*&   'MBRSH'           -> offset 0  (data from row 1)
+*&   'RMMG1-MBRSH'     -> offset 1  (data from row 2)
+*&   'INDUSTRY SECTOR' -> offset 2  (data from row 3)
+*&   anything else     -> offset 3  (data from row 4)
 *&---------------------------------------------------------------------*
 FORM detect_excel_offset.
 
@@ -599,7 +598,7 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form CHECK_SKIP_ROW
-*& Skips completely blank rows and all three recognised header rows.
+*& Skips blank rows and the three recognised header rows.
 *&---------------------------------------------------------------------*
 FORM check_skip_row USING    ps_raw  TYPE ty_input_raw
                     CHANGING pv_skip TYPE abap_bool.
@@ -616,24 +615,20 @@ FORM check_skip_row USING    ps_raw  TYPE ty_input_raw
   TRANSLATE lv_mtart TO UPPER CASE.
   TRANSLATE lv_maktx TO UPPER CASE.
 
-  "Blank row
   IF ps_raw-mbrsh IS INITIAL AND ps_raw-mtart IS INITIAL
      AND ps_raw-werks IS INITIAL AND ps_raw-lgort IS INITIAL
      AND ps_raw-maktx IS INITIAL.
     pv_skip = abap_true. RETURN.
   ENDIF.
 
-  "Row 1: short field names
   IF lv_mbrsh = 'MBRSH' OR lv_mtart = 'MTART' OR lv_maktx = 'MAKTX'.
     pv_skip = abap_true. RETURN.
   ENDIF.
 
-  "Row 2: BDC field names (RMMG1- prefix)
   IF lv_mbrsh = 'RMMG1-MBRSH' OR lv_mtart = 'RMMG1-MTART'.
     pv_skip = abap_true. RETURN.
   ENDIF.
 
-  "Row 3: English descriptions
   IF lv_mbrsh = 'INDUSTRY SECTOR'
      OR lv_mtart = 'MATERIAL TYPE'
      OR lv_maktx = 'MATERIAL DESCRIPTION'.
@@ -691,7 +686,6 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form CLEAN_TOKEN
-*& Strips CR/LF, leading/trailing spaces and surrounding double-quotes.
 *&---------------------------------------------------------------------*
 FORM clean_token CHANGING cv_value TYPE string.
 
@@ -727,7 +721,6 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   CLEAR ps_input.
   pv_ok = abap_true.
 
-  "--- Direct character-field assignments (no special formatting needed)
   ps_input-mbrsh    = ps_raw-mbrsh.
   ps_input-mtart    = ps_raw-mtart.
   ps_input-werks    = ps_raw-werks.
@@ -768,27 +761,23 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ps_input-qpls_arg = ps_raw-qpls_arg.
   ps_input-qpls_art = ps_raw-qpls_art.
 
-  "--- MARC-MTVFP: left-zero-pad to 2 digits ('2' -> '02') ----------
-  "    SAP MARC-MTVFP expects exactly 2 characters (e.g. '02', not '2')
+  "MARC-MTVFP: left-zero-pad to 2 digits ('2' -> '02')
   IF ps_raw-mtvfp IS NOT INITIAL.
     TRY.
-        lv_mtvfp_n     = ps_raw-mtvfp.   "TYPE n auto-pads with leading 0
+        lv_mtvfp_n     = ps_raw-mtvfp.
         ps_input-mtvfp = lv_mtvfp_n.
       CATCH cx_sy_conversion_no_number cx_sy_conversion_overflow.
-        ps_input-mtvfp = ps_raw-mtvfp.   "non-numeric: pass as-is
+        ps_input-mtvfp = ps_raw-mtvfp.
     ENDTRY.
   ENDIF.
 
-  "--- MARC-PRCTR: remove internal spaces, convert to uppercase ------
-  "    Value must match CEPC profit-centre master exactly
+  "MARC-PRCTR: remove internal spaces and convert to uppercase
   lv_prctr = ps_raw-prctr.
   CONDENSE lv_prctr NO-GAPS.
   TRANSLATE lv_prctr TO UPPER CASE.
   ps_input-prctr = lv_prctr.
 
-  "--- MARC-STEUC: strip leading country-code prefix when present ----
-  "    T604F is keyed LAND1+STEUC; MARC-STEUC must hold only the code
-  "    e.g. 'IN 38089299' -> '38089299'
+  "MARC-STEUC: strip country-code prefix  e.g. 'IN 38089299' -> '38089299'
   lv_steuc = ps_raw-steuc.
   SHIFT lv_steuc LEFT  DELETING LEADING  space.
   SHIFT lv_steuc RIGHT DELETING TRAILING space.
@@ -799,7 +788,6 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ENDIF.
   ps_input-steuc = lv_steuc.
 
-  "--- Packed / integer numeric fields --------------------------------
   PERFORM move_numeric USING ps_raw-brgew  'BRGEW'  pv_rowno CHANGING ps_input-brgew  pv_ok.
   PERFORM move_numeric USING ps_raw-ntgew  'NTGEW'  pv_rowno CHANGING ps_input-ntgew  pv_ok.
   PERFORM move_numeric USING ps_raw-stprs  'STPRS'  pv_rowno CHANGING ps_input-stprs  pv_ok.
@@ -852,49 +840,58 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form BUILD_BDC
 *&
-*& Screen sequence (derived from SHDB recording ZMATERIALVIEWS):
+*& Complete screen sequence:
 *&
-*&  0060  Initial screen           – single block, data-driven
-*&  0070  Pass  1  select views 01,02,04,05,06,08,10,13,14,15,16  /00
-*&  0070  Pass  S  scroll down to next page                       =P+
-*&  0070  Pass  2  navigation only                                 /00
-*&  0070  Pass  3  navigation only                                 /00
-*&  0070  Pass  4  select views 11,12,15,16,17                     /00
-*&  0070  Pass  5  navigation only                                 /00
-*&  0070  Pass  6  navigation only                                 /00
-*&  0070  Pass  7  USRM1-AAUSW=X  select views 09,10        =DEF_SKIP
-*&  0070  Pass  8                                            =DEF_SAVE
-*&  0070  Pass  9                                            =DEF_SAVE
-*&  0070  Pass 10  USRM1-AAUSW=X                            =DEF_SKIP
-*&  0070  Pass 11  USRM1-AAUSW=X  confirm view selection    =ENTR
-*&  0080  Organisational levels
-*&  4004  Basic Data 1
-*&  4004  Basic Data 2
-*&  4000  Sales Org 1             (Sales-org-level view – dynpro 4000)
-*&  4000  Sales Org 2             (Sales-org-level view – dynpro 4000)
-*&  4004  Sales General/Plant Data
-*&  4004  International Trade: Export
-*&  4000  Purchasing              (Sales-org-level view – dynpro 4000)
-*&  4004  Costing 1
-*&  4004  Costing navigation
-*&  4004  Costing 2
-*&  4004  Accounting 1
-*&  4004  MRP 1
-*&  4004  MRP 2
-*&  4004  MRP 3
-*&  4004  MRP 4
-*&  4004  Storage 1
-*&  4004  Storage 2
-*&  4004  Quality Management
-*&  SPO1  Save confirmation popup
+*&   0060  Initial screen  (data-driven, single block)
+*&
+*&   0070  View selection – Page 1
+*&         Select KZSEL 01,02,04,05,06,08,10,13,14,15,16
+*&         OKCODE = =P+  (select checkboxes AND scroll to next page)
+*&
+*&   0070  View selection – Page 2  (after scroll)
+*&         Select KZSEL 11,12,15,16,17
+*&         OKCODE = /00
+*&
+*&   0070  Navigation pass A  /00
+*&   0070  Navigation pass B  /00
+*&
+*&   0070  DEF_SKIP pass – select KZSEL 09,10 with USRM1-AAUSW=X
+*&         OKCODE = =DEF_SKIP
+*&
+*&   0070  DEF_SAVE pass 1   =DEF_SAVE
+*&   0070  DEF_SAVE pass 2   =DEF_SAVE
+*&   0070  DEF_SKIP pass 2   =DEF_SKIP  (USRM1-AAUSW=X)
+*&   0070  Confirm           =ENTR      (USRM1-AAUSW=X)
+*&
+*&   0080  Organisational levels
+*&
+*&   4004  Basic Data 1
+*&   4004  Basic Data 2
+*&   4000  Sales Org 1          (Sales-org-level view – dynpro 4000)
+*&   4000  Sales Org 2          (Sales-org-level view – dynpro 4000)
+*&   4004  Sales General/Plant Data
+*&   4004  International Trade: Export
+*&   4000  Purchasing           (Sales-org-level view – dynpro 4000)
+*&   4004  Costing 1
+*&   4004  Costing navigation
+*&   4004  Costing 2
+*&   4004  Accounting 1
+*&   4004  MRP 1
+*&   4004  MRP 2
+*&   4004  MRP 3
+*&   4004  MRP 4
+*&   4004  Storage 1
+*&   4004  Storage 2
+*&   4004  Quality Management
+*&   SPO1  Save confirmation popup
 *&---------------------------------------------------------------------*
 FORM build_bdc USING ps_input TYPE ty_input.
 
   REFRESH gt_bdcdata.
 
-  "=======================================================
-  " 0060 – Initial screen (single block – no hard-coded duplicate)
-  "=======================================================
+  "============================================================
+  " 0060 – Initial screen  (one block only – no hard-coded duplicate)
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0060.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'RMMG1-MTART'.
   PERFORM bdc_field  USING 'RMMG1-MBRSH' ps_input-mbrsh.
@@ -904,11 +901,11 @@ FORM build_bdc USING ps_input TYPE ty_input.
   ENDIF.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
 
-  "=======================================================
-  " 0070 – View selection (11 passes, verbatim from SHDB recording)
-  "=======================================================
-
-  "--- Pass 1: select 01,02,04,05,06,08,10,13,14,15,16 --------------
+  "============================================================
+  " 0070 – View selection  PAGE 1
+  " Checkboxes: 01 02 04 05 06 08 10 13 14 15 16
+  " OKCODE =P+ selects the checked views AND scrolls down to page 2
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(15)'.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(01)' c_x.
@@ -922,24 +919,13 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(14)' c_x.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(15)' c_x.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(16)' c_x.
-  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
+  PERFORM bdc_field  USING 'BDC_OKCODE'           '=P+'.
 
-  "--- Scroll: page down to next section of view list ---------------
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE' '=P+'.
-
-  "--- Pass 2: navigation only --------------------------------------
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
-
-  "--- Pass 3: navigation only --------------------------------------
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
-
-  "--- Pass 4: select 11,12,15,16,17 --------------------------------
+  "============================================================
+  " 0070 – View selection  PAGE 2  (after =P+ scroll)
+  " Checkboxes: 11 12 15 16 17
+  " OKCODE /00 confirms this page's selections
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(17)'.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(11)' c_x.
@@ -949,17 +935,24 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(17)' c_x.
   PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
 
-  "--- Pass 5: navigation only --------------------------------------
+  "============================================================
+  " 0070 – Navigation pass A  (/00)
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- Pass 6: navigation only --------------------------------------
+  "============================================================
+  " 0070 – Navigation pass B  (/00)
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "--- Pass 7: select 09,10 via =DEF_SKIP ---------------------------
+  "============================================================
+  " 0070 – DEF_SKIP pass: select views 09 and 10
+  " USRM1-AAUSW=X activates the all-users scope
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'           'USRM1-AAUSW'.
   PERFORM bdc_field  USING 'USRM1-AAUSW'          c_x.
@@ -967,31 +960,39 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(10)' c_x.
   PERFORM bdc_field  USING 'BDC_OKCODE'           '=DEF_SKIP'.
 
-  "--- Pass 8: =DEF_SAVE --------------------------------------------
+  "============================================================
+  " 0070 – DEF_SAVE  (save default view selection – pass 1)
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
   PERFORM bdc_field  USING 'BDC_OKCODE' '=DEF_SAVE'.
 
-  "--- Pass 9: =DEF_SAVE --------------------------------------------
+  "============================================================
+  " 0070 – DEF_SAVE  (save default view selection – pass 2)
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
   PERFORM bdc_field  USING 'BDC_OKCODE' '=DEF_SAVE'.
 
-  "--- Pass 10: =DEF_SKIP -------------------------------------------
+  "============================================================
+  " 0070 – DEF_SKIP pass 2
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'USRM1-AAUSW'.
   PERFORM bdc_field  USING 'USRM1-AAUSW' c_x.
   PERFORM bdc_field  USING 'BDC_OKCODE'  '=DEF_SKIP'.
 
-  "--- Pass 11: =ENTR – confirms view selection ---------------------
+  "============================================================
+  " 0070 – ENTR: confirm view selection and proceed to 0080
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MSICHTAUSW-DYTXT(01)'.
   PERFORM bdc_field  USING 'USRM1-AAUSW' c_x.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
 
-  "=======================================================
+  "============================================================
   " 0080 – Organisational levels
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0080.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'RMMG1-VTWEG'.
   PERFORM bdc_field  USING 'RMMG1-WERKS' ps_input-werks.
@@ -1000,11 +1001,11 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'RMMG1-VTWEG' ps_input-vtweg.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
 
-  "=======================================================
-  " Basic Data 1 (4004)
+  "============================================================
+  " Basic Data 1  (4004)
   " MAKT-MAKTX  MARA-MEINS  MARA-MATKL  MARA-SPART
   " MARA-BRGEW  MARA-GEWEI  MARA-NTGEW
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MAKT-MAKTX' ps_input-maktx.
   PERFORM bdc_field  USING 'MARA-MEINS' ps_input-meins.
@@ -1015,37 +1016,37 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_num    USING 'MARA-NTGEW' ps_input-ntgew.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Basic Data 2 (4004)
+  "============================================================
+  " Basic Data 2  (4004)
   " MARA-WRKST
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARA-WRKST' ps_input-wrkst.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Sales Org 1 (4000)  – Sales-org-level view uses dynpro 4000
+  "============================================================
+  " Sales Org 1  (4000)  – keyed by VKORG/VTWEG, dynpro 4000
   " MVKE-SKTOF  MG03STEUER-TAXKM(01)  MG03STEUER-TAXKM(02)
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'MVKE-SKTOF'           ps_input-sktof.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(01)' ps_input-taxkm1.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)' ps_input-taxkm2.
   PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
 
-  "=======================================================
-  " Sales Org 2 (4000)  – Sales-org-level view uses dynpro 4000
+  "============================================================
+  " Sales Org 2  (4000)  – keyed by VKORG/VTWEG, dynpro 4000
   " MVKE-VERSG  MVKE-KONDM
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'MVKE-VERSG' ps_input-versg.
   PERFORM bdc_field  USING 'MVKE-KONDM' ps_input-kondm.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Sales General/Plant Data (4004)
+  "============================================================
+  " Sales General/Plant Data  (4004)
   " MARC-MTVFP  MARC-XCHPF  MARA-TRAGR  MARC-LADGR  MARC-PRCTR
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-MTVFP' ps_input-mtvfp.
   PERFORM bdc_field  USING 'MARC-XCHPF' ps_input-xchpf.
@@ -1054,28 +1055,28 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MARC-PRCTR' ps_input-prctr.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " International Trade: Export (4004)
+  "============================================================
+  " International Trade: Export  (4004)
   " MARC-STEUC
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-STEUC' ps_input-steuc.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Purchasing (4000)  – Sales-org-level view uses dynpro 4000
+  "============================================================
+  " Purchasing  (4000)  – keyed by VKORG/VTWEG, dynpro 4000
   " MG03STEUMM-TAXIM  (scalar field, no row-index suffix)
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'MG03STEUMM-TAXIM' ps_input-taxim.
   PERFORM bdc_field  USING 'BDC_OKCODE'        c_ok_enter.
 
-  "=======================================================
-  " Costing 1 (4004)
+  "============================================================
+  " Costing 1  (4004)
   " MBEW-BKLAS  CKMLHD-MLAST
   " CKMAT_DISPLAY-STPRS_1/2/3  CKMAT_DISPLAY-PEINH_1/2/3
-  " NOTE: single-M prefix CKMAT_DISPLAY (not CKMMAT_DISPLAY)
-  "=======================================================
+  " (field prefix is CKMAT_DISPLAY – single M)
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MBEW-BKLAS'             ps_input-bklas.
   PERFORM bdc_field  USING 'CKMLHD-MLAST'           ps_input-mlast.
@@ -1087,17 +1088,18 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_num    USING 'CKMAT_DISPLAY-PEINH_3'   ps_input-peinh3.
   PERFORM bdc_field  USING 'BDC_OKCODE'              c_ok_enter.
 
-  "=======================================================
-  " Costing navigation (4004) – no user-data fields
-  "=======================================================
+  "============================================================
+  " Costing navigation  (4004) – no user-data fields
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Costing 2 (4004)
-  " MBEW-EKALR  MBEW-HKMAT  MARC-SOBSK (posted only when non-blank)
+  "============================================================
+  " Costing 2  (4004)
+  " MBEW-EKALR  MBEW-HKMAT
+  " MARC-SOBSK  (posted only when non-blank)
   " MARC-LOSGR
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MBEW-EKALR' ps_input-ekalr.
   PERFORM bdc_field  USING 'MBEW-HKMAT' ps_input-hkmat.
@@ -1107,11 +1109,11 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_num    USING 'MARC-LOSGR' ps_input-losgr.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Accounting 1 / Valuation (4004)
+  "============================================================
+  " Accounting 1  (4004)
   " MBEW-VPRSV  MBEW-STPRS  MBEW-PEINH
-  " MBEW-VERPR posted only when price control = 'V' (moving average)
-  "=======================================================
+  " MBEW-VERPR  (posted only when price control = 'V')
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MBEW-VPRSV' ps_input-vprsv.
   PERFORM bdc_num    USING 'MBEW-STPRS' ps_input-stprs.
@@ -1121,56 +1123,56 @@ FORM build_bdc USING ps_input TYPE ty_input.
   ENDIF.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " MRP 1 (4004)
+  "============================================================
+  " MRP 1  (4004)
   " MARC-DISMM
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-DISMM' ps_input-dismm.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " MRP 2 (4004)
+  "============================================================
+  " MRP 2  (4004)
   " MARC-BESKZ
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-BESKZ' ps_input-beskz.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " MRP 3 (4004)
+  "============================================================
+  " MRP 3  (4004)
   " MARC-PERKZ
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARC-PERKZ' ps_input-perkz.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " MRP 4 (4004) – no user-data fields
-  "=======================================================
+  "============================================================
+  " MRP 4  (4004) – no user-data fields
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Storage 1 (4004)
+  "============================================================
+  " Storage 1  (4004)
   " MARA-IPRKZ  MARA-SLED_BBD
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARA-IPRKZ'    ps_input-iprkz.
   PERFORM bdc_field  USING 'MARA-SLED_BBD' ps_input-sled_bbd.
   PERFORM bdc_field  USING 'BDC_OKCODE'    c_ok_enter.
 
-  "=======================================================
-  " Storage 2 (4004) – no user-data fields
-  "=======================================================
+  "============================================================
+  " Storage 2  (4004) – no user-data fields
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
 
-  "=======================================================
-  " Quality Management (4004)
+  "============================================================
+  " Quality Management  (4004)
   " MARA-QMPUR  MARC-INSMK  MARC-SSQSS  MARC-KZDKZ  MARC-NCOST
   " RMQAM-ARGUMENT  RMQAM-ART(01)
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'MARA-QMPUR'     ps_input-qmpur.
   PERFORM bdc_field  USING 'MARC-INSMK'     ps_input-insmk.
@@ -1181,9 +1183,9 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'RMQAM-ART(01)'  ps_input-qpls_art.
   PERFORM bdc_field  USING 'BDC_OKCODE'     c_ok_enter.
 
-  "=======================================================
+  "============================================================
   " SAPLSPO1 0300 – Save confirmation popup
-  "=======================================================
+  "============================================================
   PERFORM bdc_dynpro USING c_prog_spo1 c_scr_spo1.
   PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_yes.
 
@@ -1220,8 +1222,7 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form BDC_NUM
-*& Formats a packed/integer number to a plain condensed string and
-*& always appends (numeric fields must be written even when zero).
+*& Formats packed/integer to a plain condensed string and always appends.
 *&---------------------------------------------------------------------*
 FORM bdc_num USING pv_fnam LIKE bdcdata-fnam
                    pv_num  TYPE any.
