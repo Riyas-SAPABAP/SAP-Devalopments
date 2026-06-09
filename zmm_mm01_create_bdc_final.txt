@@ -866,8 +866,17 @@ ENDFORM.
 *&
 *& Screen sequence:
 *&   0060  Initial screen          (one block only – no duplicate)
-*&   0070  View selection page 1   KZSEL 01,02,04,05,06,08,10  -> =P+
-*&   0070  View selection page 2   KZSEL 01,02,03,04,08,09,12,13,14,15,16 -> =SCHL
+*&   0070  Pass 1  KZSEL 01,02,04,05,06,08,10,13,14,15,16 cursor=15 -> /00
+*&   0070  Pass 2  nav only  cursor=01  -> /00
+*&   0070  Pass 3  nav only  cursor=01  -> /00
+*&   0070  Pass 4  KZSEL 11,12,15,16,17  cursor=17  -> /00
+*&   0070  Pass 5  nav only  cursor=01  -> /00
+*&   0070  Pass 6  nav only  cursor=01  -> /00
+*&   0070  Pass 7  KZSEL 09,10  USRM1-AAUSW=X  -> =DEF_SKIP
+*&   0070  Pass 8  -> =DEF_SAVE
+*&   0070  Pass 9  -> =DEF_SAVE
+*&   0070  Pass 10 USRM1-AAUSW=X  -> =DEF_SKIP
+*&   0070  Pass 11 USRM1-AAUSW=X  cursor=01  -> =ENTR  (confirm)
 *&   0080  Organisational levels
 *&   4004  Basic Data 1
 *&   4004  Basic Data 2
@@ -903,33 +912,82 @@ FORM build_bdc USING ps_input TYPE ty_input.
   ENDIF.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
 
-  "--- 0070  Select views – page 1 ----------------------------------
+  "--- 0070 Pass 1 – KZSEL 01,02,04,05,06,08,10,13,14,15,16 --------
+  "    cursor at DYTXT(15); confirm with /00 (Enter)
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(10)'.
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(01)' c_x.   "Basic Data 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(02)' c_x.   "Basic Data 2
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(04)' c_x.   "Sales Org 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(05)' c_x.   "Sales Org 2
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(06)' c_x.   "Sales Gen/Plant
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(08)' c_x.   "Intl Trade Export
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(10)' c_x.   "Purchasing
-  PERFORM bdc_field  USING 'BDC_OKCODE'           '=P+'.  "scroll down
+  PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(15)'.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(01)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(02)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(04)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(05)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(06)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(08)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(10)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(13)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(14)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(15)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(16)' c_x.
+  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
 
-  "--- 0070  Select views – page 2 (after scroll) ------------------
+  "--- 0070 Pass 2 – navigation only --------------------------------
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(16)'.
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(01)' c_x.   "MRP 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(02)' c_x.   "MRP 2
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(03)' c_x.   "MRP 3
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(04)' c_x.   "MRP 4
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(08)' c_x.   "Storage 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(09)' c_x.   "Storage 2
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(12)' c_x.   "Quality Management
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(13)' c_x.   "Accounting 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(14)' c_x.   "Accounting 2
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(15)' c_x.   "Costing 1
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(16)' c_x.   "Costing 2
-  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_schl.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "--- 0070 Pass 3 – navigation only --------------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "--- 0070 Pass 4 – KZSEL 11,12,15,16,17  cursor at DYTXT(17) ----
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(17)'.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(11)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(12)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(15)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(16)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(17)' c_x.
+  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
+
+  "--- 0070 Pass 5 – navigation only --------------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "--- 0070 Pass 6 – navigation only --------------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
+
+  "--- 0070 Pass 7 – KZSEL 09,10  DEF_SKIP -------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR'           'USRM1-AAUSW'.
+  PERFORM bdc_field  USING 'USRM1-AAUSW'          c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(09)' c_x.
+  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(10)' c_x.
+  PERFORM bdc_field  USING 'BDC_OKCODE'           '=DEF_SKIP'.
+
+  "--- 0070 Pass 8 – DEF_SAVE ---------------------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'BDC_OKCODE' '=DEF_SAVE'.
+
+  "--- 0070 Pass 9 – DEF_SAVE ---------------------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'BDC_OKCODE' '=DEF_SAVE'.
+
+  "--- 0070 Pass 10 – DEF_SKIP --------------------------------------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR' 'USRM1-AAUSW'.
+  PERFORM bdc_field  USING 'USRM1-AAUSW' c_x.
+  PERFORM bdc_field  USING 'BDC_OKCODE'  '=DEF_SKIP'.
+
+  "--- 0070 Pass 11 – final: =ENTR confirms view selection ----------
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
+  PERFORM bdc_field  USING 'BDC_CURSOR'  'MSICHTAUSW-DYTXT(01)'.
+  PERFORM bdc_field  USING 'USRM1-AAUSW' c_x.
+  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
 
   "--- 0080  Organisational levels ----------------------------------
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0080.
