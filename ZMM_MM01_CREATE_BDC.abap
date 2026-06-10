@@ -864,7 +864,7 @@ ENDFORM.
 *&   4004  Sales General/Plant Data
 *&   4004  International Trade: Export
 *&   4000  Purchasing
-*&   4000  MRP 1   (cursor = T438T-DIBEZ)
+*&   4000  MRP 1   (cursor = MARC-DISMM)
 *&   4000  MRP 2   (cursor = MARC-BESKZ)
 *&   4000  MRP 3   (cursor = MAKT-MAKTX)  also sets MARC-MTVFP
 *&   4000  MRP 4   (cursor = MAKT-MAKTX)  navigation only
@@ -1027,11 +1027,14 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "==========================================================
   " MRP 1 (4000)
-  " BDC_CURSOR = 'T438T-DIBEZ' (MRP-type description field –
-  " confirmed by recording; NOT 'MARC-DISMM')
+  " BDC_CURSOR = 'MARC-DISMM'
+  " T438T-DIBEZ is a display-only lookup field; it is where the cursor
+  " lands AFTER SAP performs the T438T description lookup internally.
+  " BDC_CURSOR must point to the input-ready field (MARC-DISMM) so
+  " the BDC engine can correctly position and submit the screen.
   "==========================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'T438T-DIBEZ'.
+  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-DISMM'.
   PERFORM bdc_field  USING 'MAKT-MAKTX'  ps_input-maktx.
   PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
   PERFORM bdc_field  USING 'MARC-DISMM'  ps_input-dismm.
