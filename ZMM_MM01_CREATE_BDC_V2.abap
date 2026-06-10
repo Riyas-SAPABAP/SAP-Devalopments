@@ -3,66 +3,65 @@
 *& Purpose : MM01 Material Master Creation via BDC from Excel (.xlsx)
 *&
 *& Excel template layout (54 columns, data from row 4 onward):
-*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... BISMT
-*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... MARA-BISMT
-*&   Row 3  Descriptions  : Industry Sector  Material Type  ...
+*&   Row 1  Short names  : MBRSH  MTART  WERKS  ... BISMT
+*&   Row 2  BDC names    : RMMG1-MBRSH  RMMG1-MTART  ... MARA-BISMT
+*&   Row 3  Descriptions : Industry Sector  Material Type  ...
 *&   Row 4+ Data rows
 *&
 *& Column -> BDC-field mapping (positional, must match ty_input_raw 1-54):
-*&  01 MBRSH       RMMG1-MBRSH            Industry Sector
-*&  02 MTART       RMMG1-MTART            Material Type
-*&  03 WERKS       RMMG1-WERKS            Plant
-*&  04 LGORT       RMMG1-LGORT            Storage Location
-*&  05 VKORG       RMMG1-VKORG            Sales Organization
-*&  06 VTWEG       RMMG1-VTWEG            Distribution Channel
-*&  07 MAKTX       MAKT-MAKTX             Material Description
-*&  08 MEINS       MARA-MEINS             Base Unit of Measure
-*&  09 MATKL       MARA-MATKL             Material Group
-*&  10 SPART       MARA-SPART             Division
-*&  11 BRGEW       MARA-BRGEW             Gross Weight
-*&  12 GEWEI       MARA-GEWEI             Weight Unit
-*&  13 NTGEW       MARA-NTGEW             Net Weight
-*&  14 WRKST       MARA-WRKST             Basic Material
-*&  15 SKTOF       MVKE-SKTOF             Cash Discount Indicator
-*&  16 TAXKM1      MG03STEUER-TAXKM(01)   Tax Classification 1
-*&  17 TAXKM2      MG03STEUER-TAXKM(02)   Tax Classification 2
-*&  18 VERSG       MVKE-VERSG             Material Statistics Group
-*&  19 KONDM       MVKE-KONDM             Material Pricing Group
-*&  20 TRAGR       MARA-TRAGR             Transportation Group
-*&  21 LADGR       MARC-LADGR             Loading Group
-*&  22 PRCTR       MARC-PRCTR             Profit Center
-*&  23 MTVFP       MARC-MTVFP             Availability Check
-*&  24 XCHPF       MARC-XCHPF             Batch Management Indicator
-*&  25 STEUC       MARC-STEUC             Control Code / HSN
-*&  26 TAXIM       MG03STEUMM-TAXIM       Tax Indicator - Material
-*&  27 DISMM       MARC-DISMM             MRP Type
-*&  28 BESKZ       MARC-BESKZ             Procurement Type
-*&  29 PERKZ       MARC-PERKZ             Period Indicator
-*&  30 IPRKZ       MARA-IPRKZ             SLED Period Indicator
-*&  31 SLED_BBD    MARA-SLED_BBD          Shelf Life / BBD
-*&  32 QMPUR       MARA-QMPUR             QM Procurement Active
-*&  33 SSQSS       MARC-SSQSS             QM Control Key
-*&  34 BKLAS       MBEW-BKLAS             Valuation Class
-*&  35 VPRSV       MBEW-VPRSV             Price Control Indicator
-*&  36 STPRS       MBEW-STPRS             Standard Price
-*&  37 PEINH       MBEW-PEINH             Price Unit
-*&  38 EKALR       MBEW-EKALR             With Quantity Structure
-*&  39 HKMAT       MBEW-HKMAT             Material Origin (valuation)
-*&  40 SOBSK       MARC-SOBSK             Special Procurement Type
-*&  41 LOSGR       MARC-LOSGR             Costing Lot Size
-*&  42 MLAST       CKMLHD-MLAST           Price Determination
-*&  43 STPRS1      CKMAT_DISPLAY-STPRS_1  Std Price Currency/Period 1
-*&  44 STPRS2      CKMAT_DISPLAY-STPRS_2  Std Price Currency/Period 2
-*&  45 STPRS3      CKMAT_DISPLAY-STPRS_3  Std Price Currency/Period 3
-*&  46 PEINH1      CKMAT_DISPLAY-PEINH_1  Price Unit Currency/Period 1
-*&  47 PEINH2      CKMAT_DISPLAY-PEINH_2  Price Unit Currency/Period 2
-*&  48 PEINH3      CKMAT_DISPLAY-PEINH_3  Price Unit Currency/Period 3
-*&  49 VERPR       MBEW-VERPR             Moving Average Price
-*&  50 HKMAT       MARC-HKMAT             Margin Material (plant level)
-*&  51 DISPO       MARC-DISPO             MRP Controller
-*&  52 DISLS       MARC-DISLS             Lot Sizing Procedure
-*&  53 MTPOS       MARA-MTPOS_MARA        General Item Category Group
-*&  54 BISMT       MARA-BISMT             Old Material Number
+*&  01 MBRSH    RMMG1-MBRSH            Industry Sector
+*&  02 MTART    RMMG1-MTART            Material Type
+*&  03 WERKS    RMMG1-WERKS            Plant
+*&  04 LGORT    RMMG1-LGORT            Storage Location
+*&  05 VKORG    RMMG1-VKORG            Sales Organization
+*&  06 VTWEG    RMMG1-VTWEG            Distribution Channel
+*&  07 MAKTX    MAKT-MAKTX             Material Description
+*&  08 MEINS    MARA-MEINS             Base Unit of Measure
+*&  09 MATKL    MARA-MATKL             Material Group
+*&  10 SPART    MARA-SPART             Division
+*&  11 BRGEW    MARA-BRGEW             Gross Weight
+*&  12 GEWEI    MARA-GEWEI             Weight Unit
+*&  13 NTGEW    MARA-NTGEW             Net Weight
+*&  14 WRKST    MARA-WRKST             Basic Material
+*&  15 SKTOF    MVKE-SKTOF             Cash Discount Indicator
+*&  16 TAXKM1   MG03STEUER-TAXKM(01)   Tax Classification 1
+*&  17 TAXKM2   MG03STEUER-TAXKM(02)   Tax Classification 2
+*&  18 VERSG    MVKE-VERSG             Material Statistics Group
+*&  19 KONDM    MVKE-KONDM             Material Pricing Group
+*&  20 TRAGR    MARA-TRAGR             Transportation Group
+*&  21 LADGR    MARC-LADGR             Loading Group
+*&  22 PRCTR    MARC-PRCTR             Profit Center
+*&  23 MTVFP    MARC-MTVFP             Availability Check
+*&  24 XCHPF    MARC-XCHPF             Batch Management Indicator
+*&  25 STEUC    MARC-STEUC             Control Code / HSN
+*&  26 TAXIM    MG03STEUMM-TAXIM       Tax Indicator - Material
+*&  27 DISMM    MARC-DISMM             MRP Type
+*&  28 BESKZ    MARC-BESKZ             Procurement Type
+*&  29 PERKZ    MARC-PERKZ             Period Indicator
+*&  30 IPRKZ    MARA-IPRKZ             SLED Period Indicator
+*&  31 SLED_BBD MARA-SLED_BBD          Shelf Life / BBD
+*&  32 QMPUR    MARA-QMPUR             QM Procurement Active
+*&  33 SSQSS    MARC-SSQSS             QM Control Key
+*&  34 BKLAS    MBEW-BKLAS             Valuation Class
+*&  35 VPRSV    MBEW-VPRSV             Price Control Indicator
+*&  36 STPRS    MBEW-STPRS             Standard Price
+*&  37 PEINH    MBEW-PEINH             Price Unit
+*&  38 EKALR    MBEW-EKALR             With Quantity Structure
+*&  39 HKMAT    MBEW-HKMAT             Material Origin (valuation)
+*&  40 SOBSK    MARC-SOBSK             Special Procurement Type
+*&  41 LOSGR    MARC-LOSGR             Costing Lot Size
+*&  42 MLAST    CKMLHD-MLAST           Price Determination
+*&  43 STPRS1   CKMMAT_DISPLAY-STPRS_1 Std Price Currency/Period 1
+*&  44 STPRS2   CKMMAT_DISPLAY-STPRS_2 Std Price Currency/Period 2
+*&  45 STPRS3   CKMMAT_DISPLAY-STPRS_3 Std Price Currency/Period 3
+*&  46 PEINH1   CKMMAT_DISPLAY-PEINH_1 Price Unit Currency/Period 1
+*&  47 PEINH2   CKMMAT_DISPLAY-PEINH_2 Price Unit Currency/Period 2
+*&  48 PEINH3   CKMMAT_DISPLAY-PEINH_3 Price Unit Currency/Period 3
+*&  49 VERPR    MBEW-VERPR             Moving Average Price
+*&  50 DISPO    MARC-DISPO             MRP Controller
+*&  51 DISLS    MARC-DISLS             Lot Sizing Procedure
+*&  52 MTPOS    MARA-MTPOS_MARA        General Item Category Group
+*&  53 BISMT    MARA-BISMT             Old Material Number
 *&---------------------------------------------------------------------*
 REPORT zmm_mm01_create_bdc.
 
@@ -113,7 +112,7 @@ TYPES: BEGIN OF ty_input,
          stprs    TYPE p DECIMALS 2,
          peinh    TYPE p DECIMALS 0,
          ekalr    TYPE c LENGTH 1,
-         hkmat    TYPE c LENGTH 1,    "col 39  MBEW-HKMAT
+         hkmat    TYPE c LENGTH 1,
          sobsk    TYPE c LENGTH 2,
          losgr    TYPE p DECIMALS 0,
          mlast    TYPE c LENGTH 1,
@@ -124,11 +123,10 @@ TYPES: BEGIN OF ty_input,
          peinh2   TYPE p DECIMALS 0,
          peinh3   TYPE p DECIMALS 0,
          verpr    TYPE p DECIMALS 2,
-         hkmat2   TYPE c LENGTH 1,    "col 50  MARC-HKMAT (plant-level)
-         dispo    TYPE c LENGTH 3,    "col 51  MARC-DISPO
-         disls    TYPE c LENGTH 2,    "col 52  MARC-DISLS
-         mtpos    TYPE c LENGTH 4,    "col 53  MARA-MTPOS_MARA
-         bismt    TYPE c LENGTH 18,   "col 54  MARA-BISMT
+         dispo    TYPE c LENGTH 3,
+         disls    TYPE c LENGTH 2,
+         mtpos    TYPE c LENGTH 4,
+         bismt    TYPE c LENGTH 18,
        END OF ty_input.
 
 TYPES: BEGIN OF ty_input_raw,
@@ -170,7 +168,7 @@ TYPES: BEGIN OF ty_input_raw,
          stprs    TYPE string,
          peinh    TYPE string,
          ekalr    TYPE string,
-         hkmat    TYPE string,    "col 39  MBEW-HKMAT
+         hkmat    TYPE string,
          sobsk    TYPE string,
          losgr    TYPE string,
          mlast    TYPE string,
@@ -181,11 +179,10 @@ TYPES: BEGIN OF ty_input_raw,
          peinh2   TYPE string,
          peinh3   TYPE string,
          verpr    TYPE string,
-         hkmat2   TYPE string,    "col 50  MARC-HKMAT (plant-level)
-         dispo    TYPE string,    "col 51  MARC-DISPO
-         disls    TYPE string,    "col 52  MARC-DISLS
-         mtpos    TYPE string,    "col 53  MARA-MTPOS_MARA
-         bismt    TYPE string,    "col 54  MARA-BISMT
+         dispo    TYPE string,
+         disls    TYPE string,
+         mtpos    TYPE string,
+         bismt    TYPE string,
        END OF ty_input_raw.
 
 TYPES: BEGIN OF ty_record,
@@ -207,7 +204,7 @@ TYPES: BEGIN OF ty_error,
 *&---------------------------------------------------------------------*
 CONSTANTS:
   c_tcode_mm01    TYPE tcode VALUE 'MM01',
-  c_expected_cols TYPE i     VALUE 54,
+  c_expected_cols TYPE i     VALUE 53,
   c_update_sync   TYPE c     VALUE 'S',
   c_x             TYPE c     VALUE 'X',
 
@@ -559,10 +556,6 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form DETECT_EXCEL_OFFSET
-*&   'MBRSH'           -> offset 0  (data from row 1)
-*&   'RMMG1-MBRSH'     -> offset 1  (data from row 2)
-*&   'INDUSTRY SECTOR' -> offset 2  (data from row 3)
-*&   anything else     -> offset 3  (data from row 4)
 *&---------------------------------------------------------------------*
 FORM detect_excel_offset.
 
@@ -753,14 +746,13 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ps_input-bklas    = ps_raw-bklas.
   ps_input-vprsv    = ps_raw-vprsv.
   ps_input-ekalr    = ps_raw-ekalr.
-  ps_input-hkmat    = ps_raw-hkmat.    "col 39 MBEW-HKMAT
+  ps_input-hkmat    = ps_raw-hkmat.
   ps_input-sobsk    = ps_raw-sobsk.
   ps_input-mlast    = ps_raw-mlast.
-  ps_input-hkmat2   = ps_raw-hkmat2.  "col 50 MARC-HKMAT (plant-level)
-  ps_input-mtpos    = ps_raw-mtpos.    "col 53 MARA-MTPOS_MARA
-  ps_input-bismt    = ps_raw-bismt.    "col 54 MARA-BISMT
+  ps_input-mtpos    = ps_raw-mtpos.
+  ps_input-bismt    = ps_raw-bismt.
 
-  "MARC-DISMM: condense and uppercase ('nd' -> 'ND')
+  "MARC-DISMM: condense and uppercase
   lv_dismm = ps_raw-dismm.
   CONDENSE lv_dismm NO-GAPS.
   TRANSLATE lv_dismm TO UPPER CASE.
@@ -859,7 +851,7 @@ ENDFORM.
 *&
 *& Screen sequence:
 *&   0060  Initial screen
-*&   0070  View selection  Page 1 =P+  /  Page 2 =SCHL
+*&   0070  View selection Page 1 =P+ / Page 2 =SCHL
 *&   0080  Organisational levels
 *&   4004  Basic Data 1
 *&   4004  Basic Data 2
@@ -877,7 +869,9 @@ ENDFORM.
 *&   4000  Quality Management
 *&   4000  Costing 1
 *&   4000  Costing navigation
-*&   4000  Costing 2    cursor=MARC-PRCTR  (recording confirmed)
+*&   4004  Costing 2  <-- FIX: was 4000; background msg 00/349 confirms
+*&                         MARA-MEINS/MBEW-EKALR/MBEW-HKMAT/MARC-PRCTR/
+*&                         MARC-LOSGR do NOT exist in dynpro 4000 here
 *&   4000  Accounting 1
 *&   SPO1  Save confirmation popup =YES
 *&---------------------------------------------------------------------*
@@ -1027,8 +1021,8 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'       c_ok_enter.
 
   "============================================================
-  " MRP 1 (4000)
-  " cursor=MARC-DISMM  MARC-DISMM  MARC-DISPO  MARC-DISLS
+  " MRP 1 (4000)  cursor=MARC-DISMM
+  " MARC-DISMM  MARC-DISPO  MARC-DISLS
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-DISMM'.
@@ -1040,8 +1034,8 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "============================================================
-  " MRP 2 (4000)
-  " cursor=MAKT-MAKTX  MARC-BESKZ
+  " MRP 2 (4000)  cursor=MAKT-MAKTX
+  " MARC-BESKZ
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
@@ -1050,8 +1044,8 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "============================================================
-  " MRP 3 (4000)
-  " cursor=MARC-MTVFP  MARC-PERKZ  MARC-MTVFP
+  " MRP 3 (4000)  cursor=MARC-MTVFP
+  " MARC-PERKZ  MARC-MTVFP
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-MTVFP'.
@@ -1091,7 +1085,7 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " Quality Management (4000)
-  " MARA-QMPUR  MARC-SSQSS  MARC-HKMAT (col 50)
+  " MARA-QMPUR  MARC-SSQSS
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-SSQSS'.
@@ -1099,7 +1093,6 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
   PERFORM bdc_field  USING 'MARA-QMPUR'  ps_input-qmpur.
   PERFORM bdc_field  USING 'MARC-SSQSS'  ps_input-ssqss.
-  PERFORM bdc_field  USING 'MARC-HKMAT'  ps_input-hkmat2.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "============================================================
@@ -1108,19 +1101,19 @@ FORM build_bdc USING ps_input TYPE ty_input.
   " CKMMAT_DISPLAY-STPRS_1/2/3  CKMMAT_DISPLAY-PEINH_1/2/3
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'              'CKMMAT_DISPLAY-STPRS_1'.
-  PERFORM bdc_field  USING 'MAKT-MAKTX'              ps_input-maktx.
-  PERFORM bdc_field  USING 'MARA-MEINS'              ps_input-meins.
-  PERFORM bdc_field  USING 'MARA-SPART'              ps_input-spart.
-  PERFORM bdc_field  USING 'MBEW-BKLAS'              ps_input-bklas.
-  PERFORM bdc_field  USING 'CKMLHD-MLAST'            ps_input-mlast.
+  PERFORM bdc_field  USING 'BDC_CURSOR'             'CKMMAT_DISPLAY-STPRS_1'.
+  PERFORM bdc_field  USING 'MAKT-MAKTX'             ps_input-maktx.
+  PERFORM bdc_field  USING 'MARA-MEINS'             ps_input-meins.
+  PERFORM bdc_field  USING 'MARA-SPART'             ps_input-spart.
+  PERFORM bdc_field  USING 'MBEW-BKLAS'             ps_input-bklas.
+  PERFORM bdc_field  USING 'CKMLHD-MLAST'           ps_input-mlast.
   PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_1'  ps_input-stprs1.
   PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_2'  ps_input-stprs2.
   PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_3'  ps_input-stprs3.
   PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_1'  ps_input-peinh1.
   PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_2'  ps_input-peinh2.
   PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_3'  ps_input-peinh3.
-  PERFORM bdc_field  USING 'BDC_OKCODE'              c_ok_enter.
+  PERFORM bdc_field  USING 'BDC_OKCODE'             c_ok_enter.
 
   "============================================================
   " Costing navigation (4000) – no user-data fields
@@ -1131,15 +1124,15 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "============================================================
-  " Costing 2 (4000)
-  " Recording (SAPLMGD1 2904SUB2):
-  "   BDC_CURSOR = MARC-PRCTR
-  "   MARA-MEINS  MBEW-EKALR  MBEW-HKMAT  MARC-PRCTR  MARC-LOSGR
-  " MARC-SOBSK posted only when non-blank
-  " NOTE: MARA-MEINS must NOT be commented out – it is required
-  "       by the screen subscreen layout.
+  " Costing 2  *** DYNPRO 4004 ***
+  " FIX for background mode: SAP message 00/349 confirmed that
+  " MARA-MEINS, MBEW-EKALR, MBEW-HKMAT, MARC-PRCTR, MARC-LOSGR
+  " do NOT exist in dynpro 4000 at this point in the screen flow.
+  " Changing from c_scr_4000 to c_scr_4004 resolves all five
+  " 'field does not exist' errors in background processing.
+  " cursor=MARC-PRCTR (confirmed by SHDB recording)
   "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-PRCTR'.
   PERFORM bdc_field  USING 'MAKT-MAKTX'  ps_input-maktx.
   PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
@@ -1223,6 +1216,11 @@ ENDFORM.
 
 *&---------------------------------------------------------------------*
 *& Form ANALYZE_BDC_MESSAGES
+*&
+*& Captures E (error), A (abend), W (warning) message types.
+*& Also explicitly catches message 00/349 which arrives as type 'S'
+*& (Status) in BDCMSGCOLL but means "Field & does not exist in
+*& screen & &" – a hard failure in background (N) mode.
 *&---------------------------------------------------------------------*
 FORM analyze_bdc_messages USING pv_rowno TYPE i.
 
@@ -1238,9 +1236,6 @@ FORM analyze_bdc_messages USING pv_rowno TYPE i.
       ENDIF.
     ENDIF.
 
-    "Capture E (error), A (abend) and W (warning) messages.
-    "W messages can cause SY-SUBRC <> 0 without an explicit E,
-    "which previously produced only the generic 'SY-SUBRC = 1' line.
     IF gs_msgcoll-msgtyp = 'E' OR gs_msgcoll-msgtyp = 'A'
        OR gs_msgcoll-msgtyp = 'W'.
       gv_row_failed = abap_true.
@@ -1248,6 +1243,19 @@ FORM analyze_bdc_messages USING pv_rowno TYPE i.
       PERFORM add_error USING pv_rowno
                               gv_material
                               gs_msgcoll-msgtyp
+                              gs_msgcoll-msgid
+                              gs_msgcoll-msgnr
+                              gv_msgtext.
+
+    "Message 00/349 = 'Field & does not exist in screen & &'
+    "arrives as MSGTYP='S' in BDCMSGCOLL but indicates a real
+    "field-not-found failure in background mode.
+    ELSEIF gs_msgcoll-msgid = '00' AND gs_msgcoll-msgnr = '349'.
+      gv_row_failed = abap_true.
+      PERFORM get_message_text USING gs_msgcoll CHANGING gv_msgtext.
+      PERFORM add_error USING pv_rowno
+                              gv_material
+                              'E'
                               gs_msgcoll-msgid
                               gs_msgcoll-msgnr
                               gv_msgtext.
