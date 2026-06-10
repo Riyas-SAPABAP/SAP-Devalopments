@@ -2,13 +2,13 @@
 *& Report  : ZMM_MM01_CREATE_BDC
 *& Purpose : MM01 Material Master Creation via BDC from Excel (.xlsx)
 *&
-*& Excel template layout (54 columns, data from row 4 onward):
-*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... BISMT
-*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... MARA-BISMT
+*& Excel template layout (57 columns, data from row 4 onward):
+*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... TAXKM5
+*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... MG03STEUER-TAXKM(05)
 *&   Row 3  Descriptions  : Industry Sector  Material Type  ...
 *&   Row 4+ Data rows
 *&
-*& Column -> BDC-field mapping (positional, must match ty_input_raw 1-54):
+*& Column -> BDC-field mapping (positional, must match ty_input_raw 1-57):
 *&  01 MBRSH       RMMG1-MBRSH            Industry Sector
 *&  02 MTART       RMMG1-MTART            Material Type
 *&  03 WERKS       RMMG1-WERKS            Plant
@@ -63,6 +63,9 @@
 *&  52 DISLS       MARC-DISLS             Lot Sizing Procedure
 *&  53 MTPOS       MARA-MTPOS_MARA        General Item Category Group
 *&  54 BISMT       MARA-BISMT             Old Material Number
+*&  55 TAXKM3      MG03STEUER-TAXKM(03)   Tax Classification 3
+*&  56 TAXKM4      MG03STEUER-TAXKM(04)   Tax Classification 4
+*&  57 TAXKM5      MG03STEUER-TAXKM(05)   Tax Classification 5
 *&---------------------------------------------------------------------*
 REPORT zmm_mm01_create_bdc.
 
@@ -129,6 +132,9 @@ TYPES: BEGIN OF ty_input,
          disls    TYPE c LENGTH 2,    "col 52  MARC-DISLS
          mtpos    TYPE c LENGTH 4,    "col 53  MARA-MTPOS_MARA
          bismt    TYPE c LENGTH 18,   "col 54  MARA-BISMT
+         taxkm3   TYPE c LENGTH 1,    "col 55  MG03STEUER-TAXKM(03)
+         taxkm4   TYPE c LENGTH 1,    "col 56  MG03STEUER-TAXKM(04)
+         taxkm5   TYPE c LENGTH 1,    "col 57  MG03STEUER-TAXKM(05)
        END OF ty_input.
 
 TYPES: BEGIN OF ty_input_raw,
@@ -186,6 +192,9 @@ TYPES: BEGIN OF ty_input_raw,
          disls    TYPE string,    "col 52  MARC-DISLS
          mtpos    TYPE string,    "col 53  MARA-MTPOS_MARA
          bismt    TYPE string,    "col 54  MARA-BISMT
+         taxkm3   TYPE string,    "col 55  MG03STEUER-TAXKM(03)
+         taxkm4   TYPE string,    "col 56  MG03STEUER-TAXKM(04)
+         taxkm5   TYPE string,    "col 57  MG03STEUER-TAXKM(05)
        END OF ty_input_raw.
 
 TYPES: BEGIN OF ty_record,
@@ -207,7 +216,7 @@ TYPES: BEGIN OF ty_error,
 *&---------------------------------------------------------------------*
 CONSTANTS:
   c_tcode_mm01    TYPE tcode VALUE 'MM01',
-  c_expected_cols TYPE i     VALUE 54,        "54 columns in Excel template
+  c_expected_cols TYPE i     VALUE 57,        "57 columns in Excel template
   c_update_sync   TYPE c     VALUE 'S',
   c_x             TYPE c     VALUE 'X',
 
@@ -761,6 +770,9 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ps_input-hkmat2   = ps_raw-hkmat2.  "col 50 MARC-HKMAT (plant-level)
   ps_input-mtpos    = ps_raw-mtpos.    "col 53 MARA-MTPOS_MARA
   ps_input-bismt    = ps_raw-bismt.    "col 54 MARA-BISMT
+  ps_input-taxkm3   = ps_raw-taxkm3.  "col 55 MG03STEUER-TAXKM(03)
+  ps_input-taxkm4   = ps_raw-taxkm4.  "col 56 MG03STEUER-TAXKM(04)
+  ps_input-taxkm5   = ps_raw-taxkm5.  "col 57 MG03STEUER-TAXKM(05)
 
   "MARC-DISMM: condense and uppercase ('nd' -> 'ND')
   lv_dismm = ps_raw-dismm.
@@ -975,14 +987,18 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " Sales Org 1 (4000)
-  " MVKE-SKTOF  MG03STEUER-TAXKM(01)  MG03STEUER-TAXKM(02)
+  " MVKE-SKTOF
+  " MG03STEUER-TAXKM(01) to (05) – 5 Tax Classification rows
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'MG03STEUER-TAXKM(02)'.
+  PERFORM bdc_field  USING 'BDC_CURSOR'           'MG03STEUER-TAXKM(05)'.
   PERFORM bdc_field  USING 'MAKT-MAKTX'           ps_input-maktx.
   PERFORM bdc_field  USING 'MVKE-SKTOF'           ps_input-sktof.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(01)' ps_input-taxkm1.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)' ps_input-taxkm2.
+  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(03)' ps_input-taxkm3.
+  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(04)' ps_input-taxkm4.
+  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(05)' ps_input-taxkm5.
   PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
 
   "============================================================
