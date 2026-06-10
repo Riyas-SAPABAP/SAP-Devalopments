@@ -2,13 +2,13 @@
 *& Report  : ZMM_MM01_CREATE_BDC
 *& Purpose : MM01 Material Master Creation via BDC from Excel (.xlsx)
 *&
-*& Excel template layout (57 columns, data from row 4 onward):
-*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... TAXKM5
-*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... MG03STEUER-TAXKM(05)
+*& Excel template layout (54 columns, data from row 4 onward):
+*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... BISMT
+*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... MARA-BISMT
 *&   Row 3  Descriptions  : Industry Sector  Material Type  ...
 *&   Row 4+ Data rows
 *&
-*& Column -> BDC-field mapping (positional, must match ty_input_raw 1-57):
+*& Column -> BDC-field mapping (positional, must match ty_input_raw 1-54):
 *&  01 MBRSH       RMMG1-MBRSH            Industry Sector
 *&  02 MTART       RMMG1-MTART            Material Type
 *&  03 WERKS       RMMG1-WERKS            Plant
@@ -63,9 +63,6 @@
 *&  52 DISLS       MARC-DISLS             Lot Sizing Procedure
 *&  53 MTPOS       MARA-MTPOS_MARA        General Item Category Group
 *&  54 BISMT       MARA-BISMT             Old Material Number
-*&  55 TAXKM3      MG03STEUER-TAXKM(03)   Tax Classification 3
-*&  56 TAXKM4      MG03STEUER-TAXKM(04)   Tax Classification 4
-*&  57 TAXKM5      MG03STEUER-TAXKM(05)   Tax Classification 5
 *&---------------------------------------------------------------------*
 REPORT zmm_mm01_create_bdc.
 
@@ -132,9 +129,6 @@ TYPES: BEGIN OF ty_input,
          disls    TYPE c LENGTH 2,    "col 52  MARC-DISLS
          mtpos    TYPE c LENGTH 4,    "col 53  MARA-MTPOS_MARA
          bismt    TYPE c LENGTH 18,   "col 54  MARA-BISMT
-         taxkm3   TYPE c LENGTH 1,    "col 55  MG03STEUER-TAXKM(03)
-         taxkm4   TYPE c LENGTH 1,    "col 56  MG03STEUER-TAXKM(04)
-         taxkm5   TYPE c LENGTH 1,    "col 57  MG03STEUER-TAXKM(05)
        END OF ty_input.
 
 TYPES: BEGIN OF ty_input_raw,
@@ -192,9 +186,6 @@ TYPES: BEGIN OF ty_input_raw,
          disls    TYPE string,    "col 52  MARC-DISLS
          mtpos    TYPE string,    "col 53  MARA-MTPOS_MARA
          bismt    TYPE string,    "col 54  MARA-BISMT
-         taxkm3   TYPE string,    "col 55  MG03STEUER-TAXKM(03)
-         taxkm4   TYPE string,    "col 56  MG03STEUER-TAXKM(04)
-         taxkm5   TYPE string,    "col 57  MG03STEUER-TAXKM(05)
        END OF ty_input_raw.
 
 TYPES: BEGIN OF ty_record,
@@ -216,7 +207,7 @@ TYPES: BEGIN OF ty_error,
 *&---------------------------------------------------------------------*
 CONSTANTS:
   c_tcode_mm01    TYPE tcode VALUE 'MM01',
-  c_expected_cols TYPE i     VALUE 57,        "57 columns in Excel template
+  c_expected_cols TYPE i     VALUE 54,
   c_update_sync   TYPE c     VALUE 'S',
   c_x             TYPE c     VALUE 'X',
 
@@ -722,7 +713,6 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
                           CHANGING ps_input TYPE ty_input
                                    pv_ok    TYPE abap_bool.
 
-  "All string-conversion locals declared here (none at module level)
   DATA: lv_mtvfp_n TYPE n LENGTH 2,
         lv_prctr   TYPE string,
         lv_steuc   TYPE string,
@@ -733,7 +723,6 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   CLEAR ps_input.
   pv_ok = abap_true.
 
-  "--- Direct character-field assignments ----------------------------
   ps_input-mbrsh    = ps_raw-mbrsh.
   ps_input-mtart    = ps_raw-mtart.
   ps_input-werks    = ps_raw-werks.
@@ -770,9 +759,6 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ps_input-hkmat2   = ps_raw-hkmat2.  "col 50 MARC-HKMAT (plant-level)
   ps_input-mtpos    = ps_raw-mtpos.    "col 53 MARA-MTPOS_MARA
   ps_input-bismt    = ps_raw-bismt.    "col 54 MARA-BISMT
-  ps_input-taxkm3   = ps_raw-taxkm3.  "col 55 MG03STEUER-TAXKM(03)
-  ps_input-taxkm4   = ps_raw-taxkm4.  "col 56 MG03STEUER-TAXKM(04)
-  ps_input-taxkm5   = ps_raw-taxkm5.  "col 57 MG03STEUER-TAXKM(05)
 
   "MARC-DISMM: condense and uppercase ('nd' -> 'ND')
   lv_dismm = ps_raw-dismm.
@@ -819,7 +805,6 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ENDIF.
   ps_input-steuc = lv_steuc.
 
-  "--- Numeric fields ------------------------------------------------
   PERFORM move_numeric USING ps_raw-brgew  'BRGEW'  pv_rowno CHANGING ps_input-brgew  pv_ok.
   PERFORM move_numeric USING ps_raw-ntgew  'NTGEW'  pv_rowno CHANGING ps_input-ntgew  pv_ok.
   PERFORM move_numeric USING ps_raw-stprs  'STPRS'  pv_rowno CHANGING ps_input-stprs  pv_ok.
@@ -872,29 +857,28 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form BUILD_BDC
 *&
-*& Screen sequence validated against SHDB recordings:
-*&
+*& Screen sequence:
 *&   0060  Initial screen
-*&   0070  View selection (2 pages: =P+ scroll then =SCHL confirm)
+*&   0070  View selection  Page 1 =P+  /  Page 2 =SCHL
 *&   0080  Organisational levels
-*&   4004  Basic Data 1            (client-level, dynpro 4004)
+*&   4004  Basic Data 1
 *&   4004  Basic Data 2
-*&   4000  Sales Org 1             (Sales-org view, dynpro 4000)
+*&   4000  Sales Org 1
 *&   4000  Sales Org 2
 *&   4004  Sales General/Plant Data
 *&   4004  International Trade: Export
 *&   4000  Purchasing
-*&   4000  MRP 1   BDC_CURSOR=MARC-DISMM  MARC-DISMM/DISPO/DISLS
-*&   4000  MRP 2   BDC_CURSOR=MAKT-MAKTX  MARC-BESKZ
-*&   4000  MRP 3   BDC_CURSOR=MARC-MTVFP  MARC-PERKZ/MTVFP
+*&   4000  MRP 1   cursor=MARC-DISMM
+*&   4000  MRP 2   cursor=MAKT-MAKTX
+*&   4000  MRP 3   cursor=MARC-MTVFP
 *&   4000  MRP 4   navigation only
-*&   4000  Storage 1               MARA-IPRKZ/SLED_BBD
-*&   4000  Storage 2               MARC-PRCTR (re-confirm)
-*&   4000  Quality Management      MARA-QMPUR/MARC-SSQSS
-*&   4000  Costing 1               MBEW-BKLAS/CKMLHD-MLAST/CKMMAT_DISPLAY
+*&   4000  Storage 1
+*&   4000  Storage 2
+*&   4000  Quality Management
+*&   4000  Costing 1
 *&   4000  Costing navigation
-*&   4000  Costing 2               MBEW-EKALR/HKMAT/MARC-PRCTR/LOSGR
-*&   4000  Accounting 1            MBEW-VPRSV/STPRS/PEINH
+*&   4000  Costing 2    cursor=MARC-PRCTR  (recording confirmed)
+*&   4000  Accounting 1
 *&   SPO1  Save confirmation popup =YES
 *&---------------------------------------------------------------------*
 FORM build_bdc USING ps_input TYPE ty_input.
@@ -914,7 +898,7 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
 
   "============================================================
-  " 0070 – View selection Page 1  (=P+ selects and scrolls)
+  " 0070 – View selection  Page 1  (=P+ selects and scrolls)
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(16)'.
@@ -929,10 +913,10 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(14)' c_x.   "MRP 2
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(15)' c_x.   "MRP 3
   PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(16)' c_x.   "MRP 4
-  PERFORM bdc_field  USING 'BDC_OKCODE'           '=P+'.  "scroll down
+  PERFORM bdc_field  USING 'BDC_OKCODE'           '=P+'.
 
   "============================================================
-  " 0070 – View selection Page 2  (/00 + =SCHL confirm)
+  " 0070 – View selection  Page 2  (=SCHL confirms)
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(16)'.
@@ -986,9 +970,8 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "============================================================
-  " Sales Org 1 (4000)  – PAGE 1 of tax table (rows 1-2 visible)
-  " Fill TAXKM(01) and TAXKM(02), then /00 to stay on screen
-  " and trigger the implicit scroll of the table control.
+  " Sales Org 1 (4000)
+  " MVKE-SKTOF  MG03STEUER-TAXKM(01)  MG03STEUER-TAXKM(02)
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'           'MG03STEUER-TAXKM(02)'.
@@ -996,18 +979,6 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MVKE-SKTOF'           ps_input-sktof.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(01)' ps_input-taxkm1.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)' ps_input-taxkm2.
-  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
-
-  "============================================================
-  " Sales Org 1 (4000)  – PAGE 2 of tax table (rows 3-5 visible
-  "   after scroll-down; fill remaining rows then advance screen)
-  "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'MG03STEUER-TAXKM(05)'.
-  PERFORM bdc_field  USING 'MAKT-MAKTX'           ps_input-maktx.
-  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(03)' ps_input-taxkm3.
-  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(04)' ps_input-taxkm4.
-  PERFORM bdc_field  USING 'MG03STEUER-TAXKM(05)' ps_input-taxkm5.
   PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
 
   "============================================================
@@ -1057,8 +1028,7 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " MRP 1 (4000)
-  " BDC_CURSOR = MARC-DISMM (input-ready field – recording confirmed)
-  " MARC-DISMM  MARC-DISPO  MARC-DISLS
+  " cursor=MARC-DISMM  MARC-DISMM  MARC-DISPO  MARC-DISLS
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-DISMM'.
@@ -1071,8 +1041,7 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " MRP 2 (4000)
-  " BDC_CURSOR = MAKT-MAKTX (recording)
-  " MARC-BESKZ
+  " cursor=MAKT-MAKTX  MARC-BESKZ
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MAKT-MAKTX'.
@@ -1082,8 +1051,7 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " MRP 3 (4000)
-  " BDC_CURSOR = MARC-MTVFP (recording – not MAKT-MAKTX)
-  " MARC-PERKZ  MARC-MTVFP
+  " cursor=MARC-MTVFP  MARC-PERKZ  MARC-MTVFP
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-MTVFP'.
@@ -1105,15 +1073,15 @@ FORM build_bdc USING ps_input TYPE ty_input.
   " MARA-IPRKZ  MARA-SLED_BBD
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'      'MAKT-MAKTX'.
-  PERFORM bdc_field  USING 'MAKT-MAKTX'      ps_input-maktx.
-  PERFORM bdc_field  USING 'MARA-MEINS'      ps_input-meins.
-  PERFORM bdc_field  USING 'MARA-IPRKZ'      ps_input-iprkz.
-  PERFORM bdc_field  USING 'MARA-SLED_BBD'   ps_input-sled_bbd.
-  PERFORM bdc_field  USING 'BDC_OKCODE'      c_ok_enter.
+  PERFORM bdc_field  USING 'BDC_CURSOR'     'MAKT-MAKTX'.
+  PERFORM bdc_field  USING 'MAKT-MAKTX'     ps_input-maktx.
+  PERFORM bdc_field  USING 'MARA-MEINS'     ps_input-meins.
+  PERFORM bdc_field  USING 'MARA-IPRKZ'     ps_input-iprkz.
+  PERFORM bdc_field  USING 'MARA-SLED_BBD'  ps_input-sled_bbd.
+  PERFORM bdc_field  USING 'BDC_OKCODE'     c_ok_enter.
 
   "============================================================
-  " Storage 2 / MARC-PRCTR confirmation (4000)
+  " Storage 2 / MARC-PRCTR re-confirm (4000)
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-PRCTR'.
@@ -1138,22 +1106,21 @@ FORM build_bdc USING ps_input TYPE ty_input.
   " Costing 1 (4000)
   " MBEW-BKLAS  CKMLHD-MLAST
   " CKMMAT_DISPLAY-STPRS_1/2/3  CKMMAT_DISPLAY-PEINH_1/2/3
-  " (double-M prefix CKMMAT_DISPLAY – confirmed by recording)
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'               'CKMMAT_DISPLAY-STPRS_1'.
-  PERFORM bdc_field  USING 'MAKT-MAKTX'               ps_input-maktx.
-  PERFORM bdc_field  USING 'MARA-MEINS'               ps_input-meins.
-  PERFORM bdc_field  USING 'MARA-SPART'               ps_input-spart.
-  PERFORM bdc_field  USING 'MBEW-BKLAS'               ps_input-bklas.
-  PERFORM bdc_field  USING 'CKMLHD-MLAST'             ps_input-mlast.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_1'   ps_input-stprs1.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_2'   ps_input-stprs2.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_3'   ps_input-stprs3.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_1'   ps_input-peinh1.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_2'   ps_input-peinh2.
-  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_3'   ps_input-peinh3.
-  PERFORM bdc_field  USING 'BDC_OKCODE'               c_ok_enter.
+  PERFORM bdc_field  USING 'BDC_CURSOR'              'CKMMAT_DISPLAY-STPRS_1'.
+  PERFORM bdc_field  USING 'MAKT-MAKTX'              ps_input-maktx.
+  PERFORM bdc_field  USING 'MARA-MEINS'              ps_input-meins.
+  PERFORM bdc_field  USING 'MARA-SPART'              ps_input-spart.
+  PERFORM bdc_field  USING 'MBEW-BKLAS'              ps_input-bklas.
+  PERFORM bdc_field  USING 'CKMLHD-MLAST'            ps_input-mlast.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_1'  ps_input-stprs1.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_2'  ps_input-stprs2.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-STPRS_3'  ps_input-stprs3.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_1'  ps_input-peinh1.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_2'  ps_input-peinh2.
+  PERFORM bdc_num    USING 'CKMMAT_DISPLAY-PEINH_3'  ps_input-peinh3.
+  PERFORM bdc_field  USING 'BDC_OKCODE'              c_ok_enter.
 
   "============================================================
   " Costing navigation (4000) – no user-data fields
@@ -1165,12 +1132,13 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " Costing 2 (4000)
-  " BDC_CURSOR = MARA-MEINS (confirmed by recording)
-  " MBEW-EKALR  MBEW-HKMAT  MARC-PRCTR  MARC-LOSGR
+  " BDC_CURSOR = MARC-PRCTR  (confirmed by SHDB recording –
+  "   subscreen SAPLMGD1 2904SUB2; was wrongly set to MARA-MEINS)
+  " MARA-MEINS  MBEW-EKALR  MBEW-HKMAT  MARC-PRCTR  MARC-LOSGR
   " MARC-SOBSK posted only when non-blank
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARA-MEINS'.
+  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-PRCTR'.
   PERFORM bdc_field  USING 'MAKT-MAKTX'  ps_input-maktx.
   PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
   PERFORM bdc_field  USING 'MBEW-EKALR'  ps_input-ekalr.
