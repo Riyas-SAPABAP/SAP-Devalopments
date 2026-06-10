@@ -2,13 +2,13 @@
 *& Report  : ZMM_MM01_CREATE_BDC
 *& Purpose : MM01 Material Master Creation via BDC from Excel (.xlsx)
 *&
-*& Excel template layout (56 columns, data from row 4 onward):
-*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... DISLS
-*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... MARC-DISLS
+*& Excel template layout (54 columns, data from row 4 onward):
+*&   Row 1  Short names   : MBRSH  MTART  WERKS  ... BISMT
+*&   Row 2  BDC names     : RMMG1-MBRSH  RMMG1-MTART  ... MARA-BISMT
 *&   Row 3  Descriptions  : Industry Sector  Material Type  ...
 *&   Row 4+ Data rows
 *&
-*& Column -> BDC-field mapping (positional, must match ty_input_raw 1-56):
+*& Column -> BDC-field mapping (positional, must match ty_input_raw 1-54):
 *&  01 MBRSH       RMMG1-MBRSH            Industry Sector
 *&  02 MTART       RMMG1-MTART            Material Type
 *&  03 WERKS       RMMG1-WERKS            Plant
