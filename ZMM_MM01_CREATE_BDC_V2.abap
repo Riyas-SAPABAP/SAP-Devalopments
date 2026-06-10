@@ -1132,10 +1132,12 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " Costing 2 (4000)
-  " BDC_CURSOR = MARC-PRCTR  (confirmed by SHDB recording –
-  "   subscreen SAPLMGD1 2904SUB2; was wrongly set to MARA-MEINS)
-  " MARA-MEINS  MBEW-EKALR  MBEW-HKMAT  MARC-PRCTR  MARC-LOSGR
+  " Recording (SAPLMGD1 2904SUB2):
+  "   BDC_CURSOR = MARC-PRCTR
+  "   MARA-MEINS  MBEW-EKALR  MBEW-HKMAT  MARC-PRCTR  MARC-LOSGR
   " MARC-SOBSK posted only when non-blank
+  " NOTE: MARA-MEINS must NOT be commented out – it is required
+  "       by the screen subscreen layout.
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-PRCTR'.
@@ -1236,7 +1238,11 @@ FORM analyze_bdc_messages USING pv_rowno TYPE i.
       ENDIF.
     ENDIF.
 
-    IF gs_msgcoll-msgtyp = 'E' OR gs_msgcoll-msgtyp = 'A'.
+    "Capture E (error), A (abend) and W (warning) messages.
+    "W messages can cause SY-SUBRC <> 0 without an explicit E,
+    "which previously produced only the generic 'SY-SUBRC = 1' line.
+    IF gs_msgcoll-msgtyp = 'E' OR gs_msgcoll-msgtyp = 'A'
+       OR gs_msgcoll-msgtyp = 'W'.
       gv_row_failed = abap_true.
       PERFORM get_message_text USING gs_msgcoll CHANGING gv_msgtext.
       PERFORM add_error USING pv_rowno
