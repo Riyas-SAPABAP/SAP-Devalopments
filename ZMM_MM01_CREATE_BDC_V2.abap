@@ -58,15 +58,11 @@
 *&  47 PEINH2      CKMAT_DISPLAY-PEINH_2  Price Unit Currency/Period 2
 *&  48 PEINH3      CKMAT_DISPLAY-PEINH_3  Price Unit Currency/Period 3
 *&  49 VERPR       MBEW-VERPR             Moving Average Price
-*&  50 INSMK       MARC-INSMK             Inspection Stock Indicator
-*&  51 KZDKZ       MARC-KZDKZ             Post to Inspection Stock
-*&  52 HKMAT       MARC-HKMAT             Margin Material (plant level)
-*&  53 QPLS_ARG    RMQAM-ARGUMENT         Insp Plan Usage
-*&  54 QPLS_ART    RMQAM-ART(01)          Insp Plan Insp Type
-*&  55 DISPO       MARC-DISPO             MRP Controller
-*&  56 DISLS       MARC-DISLS             Lot Sizing Procedure
-*&  57 MTPOS       MARA-MTPOS_MARA        General Item Category Group
-*&  58 BISMT       MARA-BISMT             Old Material Number
+*&  50 HKMAT       MARC-HKMAT             Margin Material (plant level)
+*&  51 DISPO       MARC-DISPO             MRP Controller
+*&  52 DISLS       MARC-DISLS             Lot Sizing Procedure
+*&  53 MTPOS       MARA-MTPOS_MARA        General Item Category Group
+*&  54 BISMT       MARA-BISMT             Old Material Number
 *&---------------------------------------------------------------------*
 REPORT zmm_mm01_create_bdc.
 
@@ -128,15 +124,11 @@ TYPES: BEGIN OF ty_input,
          peinh2   TYPE p DECIMALS 0,
          peinh3   TYPE p DECIMALS 0,
          verpr    TYPE p DECIMALS 2,
-         insmk    TYPE c LENGTH 1,
-         kzdkz    TYPE c LENGTH 1,
-         hkmat2   TYPE c LENGTH 1,    "col 52  MARC-HKMAT (plant-level)
-         qpls_arg TYPE c LENGTH 10,
-         qpls_art TYPE c LENGTH 4,
-         dispo    TYPE c LENGTH 3,    "col 55  MARC-DISPO
-         disls    TYPE c LENGTH 2,    "col 56  MARC-DISLS
-         mtpos    TYPE c LENGTH 4,    "col 57  MARA-MTPOS_MARA
-         bismt    TYPE c LENGTH 18,   "col 58  MARA-BISMT
+         hkmat2   TYPE c LENGTH 1,    "col 50  MARC-HKMAT (plant-level)
+         dispo    TYPE c LENGTH 3,    "col 51  MARC-DISPO
+         disls    TYPE c LENGTH 2,    "col 52  MARC-DISLS
+         mtpos    TYPE c LENGTH 4,    "col 53  MARA-MTPOS_MARA
+         bismt    TYPE c LENGTH 18,   "col 54  MARA-BISMT
        END OF ty_input.
 
 TYPES: BEGIN OF ty_input_raw,
@@ -189,15 +181,11 @@ TYPES: BEGIN OF ty_input_raw,
          peinh2   TYPE string,
          peinh3   TYPE string,
          verpr    TYPE string,
-         insmk    TYPE string,
-         kzdkz    TYPE string,
-         hkmat2   TYPE string,    "col 52  MARC-HKMAT (plant-level)
-         qpls_arg TYPE string,
-         qpls_art TYPE string,
-         dispo    TYPE string,    "col 55  MARC-DISPO
-         disls    TYPE string,    "col 56  MARC-DISLS
-         mtpos    TYPE string,    "col 57  MARA-MTPOS_MARA
-         bismt    TYPE string,    "col 58  MARA-BISMT
+         hkmat2   TYPE string,    "col 50  MARC-HKMAT (plant-level)
+         dispo    TYPE string,    "col 51  MARC-DISPO
+         disls    TYPE string,    "col 52  MARC-DISLS
+         mtpos    TYPE string,    "col 53  MARA-MTPOS_MARA
+         bismt    TYPE string,    "col 54  MARA-BISMT
        END OF ty_input_raw.
 
 TYPES: BEGIN OF ty_record,
@@ -219,7 +207,7 @@ TYPES: BEGIN OF ty_error,
 *&---------------------------------------------------------------------*
 CONSTANTS:
   c_tcode_mm01    TYPE tcode VALUE 'MM01',
-  c_expected_cols TYPE i     VALUE 58,        "58 columns in Excel template
+  c_expected_cols TYPE i     VALUE 54,        "54 columns in Excel template
   c_update_sync   TYPE c     VALUE 'S',
   c_x             TYPE c     VALUE 'X',
 
@@ -770,13 +758,9 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ps_input-hkmat    = ps_raw-hkmat.    "col 39 MBEW-HKMAT
   ps_input-sobsk    = ps_raw-sobsk.
   ps_input-mlast    = ps_raw-mlast.
-  ps_input-insmk    = ps_raw-insmk.
-  ps_input-kzdkz    = ps_raw-kzdkz.
-  ps_input-hkmat2   = ps_raw-hkmat2.  "col 52 MARC-HKMAT (plant-level)
-  ps_input-qpls_arg = ps_raw-qpls_arg.
-  ps_input-qpls_art = ps_raw-qpls_art.
-  ps_input-mtpos    = ps_raw-mtpos.    "col 57 MARA-MTPOS_MARA
-  ps_input-bismt    = ps_raw-bismt.    "col 58 MARA-BISMT
+  ps_input-hkmat2   = ps_raw-hkmat2.  "col 50 MARC-HKMAT (plant-level)
+  ps_input-mtpos    = ps_raw-mtpos.    "col 53 MARA-MTPOS_MARA
+  ps_input-bismt    = ps_raw-bismt.    "col 54 MARA-BISMT
 
   "MARC-DISMM: condense and uppercase ('nd' -> 'ND')
   lv_dismm = ps_raw-dismm.
@@ -1114,21 +1098,16 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " Quality Management (4000)
-  " MARA-QMPUR  MARC-SSQSS  MARC-INSMK  MARC-KZDKZ
-  " MARC-HKMAT (col 52)  RMQAM-ARGUMENT  RMQAM-ART(01)
+  " MARA-QMPUR  MARC-SSQSS  MARC-HKMAT (col 50)
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'      'MARC-SSQSS'.
-  PERFORM bdc_field  USING 'MAKT-MAKTX'      ps_input-maktx.
-  PERFORM bdc_field  USING 'MARA-MEINS'      ps_input-meins.
-  PERFORM bdc_field  USING 'MARA-QMPUR'      ps_input-qmpur.
-  PERFORM bdc_field  USING 'MARC-INSMK'      ps_input-insmk.
-  PERFORM bdc_field  USING 'MARC-SSQSS'      ps_input-ssqss.
-  PERFORM bdc_field  USING 'MARC-KZDKZ'      ps_input-kzdkz.
-  PERFORM bdc_field  USING 'MARC-HKMAT'      ps_input-hkmat2.
-  PERFORM bdc_field  USING 'RMQAM-ARGUMENT'  ps_input-qpls_arg.
-  PERFORM bdc_field  USING 'RMQAM-ART(01)'   ps_input-qpls_art.
-  PERFORM bdc_field  USING 'BDC_OKCODE'      c_ok_enter.
+  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-SSQSS'.
+  PERFORM bdc_field  USING 'MAKT-MAKTX'  ps_input-maktx.
+  PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
+  PERFORM bdc_field  USING 'MARA-QMPUR'  ps_input-qmpur.
+  PERFORM bdc_field  USING 'MARC-SSQSS'  ps_input-ssqss.
+  PERFORM bdc_field  USING 'MARC-HKMAT'  ps_input-hkmat2.
+  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "============================================================
   " Costing 1 (4000)
