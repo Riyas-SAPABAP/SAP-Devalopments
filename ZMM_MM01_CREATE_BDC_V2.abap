@@ -986,16 +986,25 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "============================================================
-  " Sales Org 1 (4000)
-  " MVKE-SKTOF
-  " MG03STEUER-TAXKM(01) to (05) – 5 Tax Classification rows
+  " Sales Org 1 (4000)  – PAGE 1 of tax table (rows 1-2 visible)
+  " Fill TAXKM(01) and TAXKM(02), then /00 to stay on screen
+  " and trigger the implicit scroll of the table control.
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'MG03STEUER-TAXKM(05)'.
+  PERFORM bdc_field  USING 'BDC_CURSOR'           'MG03STEUER-TAXKM(02)'.
   PERFORM bdc_field  USING 'MAKT-MAKTX'           ps_input-maktx.
   PERFORM bdc_field  USING 'MVKE-SKTOF'           ps_input-sktof.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(01)' ps_input-taxkm1.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(02)' ps_input-taxkm2.
+  PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
+
+  "============================================================
+  " Sales Org 1 (4000)  – PAGE 2 of tax table (rows 3-5 visible
+  "   after scroll-down; fill remaining rows then advance screen)
+  "============================================================
+  PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
+  PERFORM bdc_field  USING 'BDC_CURSOR'           'MG03STEUER-TAXKM(05)'.
+  PERFORM bdc_field  USING 'MAKT-MAKTX'           ps_input-maktx.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(03)' ps_input-taxkm3.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(04)' ps_input-taxkm4.
   PERFORM bdc_field  USING 'MG03STEUER-TAXKM(05)' ps_input-taxkm5.
