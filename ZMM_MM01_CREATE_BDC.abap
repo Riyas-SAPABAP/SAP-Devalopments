@@ -846,22 +846,13 @@ ENDFORM.
 *&
 *&   0070  View selection – Page 1
 *&         Select KZSEL 01,02,04,05,06,08,10,13,14,15,16
-*&         OKCODE = =P+  (select checkboxes AND scroll to next page)
+*&         OKCODE = =P+  (tick all page-1 views AND scroll to page 2)
 *&
-*&   0070  View selection – Page 2  (after scroll)
+*&   0070  View selection – Page 2  (now visible after =P+ scroll)
 *&         Select KZSEL 11,12,15,16,17
-*&         OKCODE = /00
+*&         OKCODE = /00  (confirm page-2 selections)
 *&
-*&   0070  Navigation pass A  /00
-*&   0070  Navigation pass B  /00
-*&
-*&   0070  DEF_SKIP pass – select KZSEL 09,10 with USRM1-AAUSW=X
-*&         OKCODE = =DEF_SKIP
-*&
-*&   0070  DEF_SAVE pass 1   =DEF_SAVE
-*&   0070  DEF_SAVE pass 2   =DEF_SAVE
-*&   0070  DEF_SKIP pass 2   =DEF_SKIP  (USRM1-AAUSW=X)
-*&   0070  Confirm           =ENTR      (USRM1-AAUSW=X)
+*&   0070  Confirm  OKCODE = =ENTR  (advance to 0080)
 *&
 *&   0080  Organisational levels
 *&
@@ -903,8 +894,8 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " 0070 – View selection  PAGE 1
-  " Checkboxes: 01 02 04 05 06 08 10 13 14 15 16
-  " OKCODE =P+ selects the checked views AND scrolls down to page 2
+  " Check views 01,02,04,05,06,08,10,13,14,15,16
+  " OKCODE =P+ ticks all checked boxes AND scrolls to page 2
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR'           'MSICHTAUSW-DYTXT(15)'.
@@ -922,8 +913,8 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'           '=P+'.
 
   "============================================================
-  " 0070 – View selection  PAGE 2  (after =P+ scroll)
-  " Checkboxes: 11 12 15 16 17
+  " 0070 – View selection  PAGE 2  (now visible after =P+ scroll)
+  " Check views 11,12,15,16,17
   " OKCODE /00 confirms this page's selections
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
@@ -936,59 +927,11 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'BDC_OKCODE'           c_ok_enter.
 
   "============================================================
-  " 0070 – Navigation pass A  (/00)
+  " 0070 – Confirm view selection and proceed to screen 0080
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
   PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
-
-  "============================================================
-  " 0070 – Navigation pass B  (/00)
-  "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_enter.
-
-  "============================================================
-  " 0070 – DEF_SKIP pass: select views 09 and 10
-  " USRM1-AAUSW=X activates the all-users scope
-  "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR'           'USRM1-AAUSW'.
-  PERFORM bdc_field  USING 'USRM1-AAUSW'          c_x.
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(09)' c_x.
-  PERFORM bdc_field  USING 'MSICHTAUSW-KZSEL(10)' c_x.
-  PERFORM bdc_field  USING 'BDC_OKCODE'           '=DEF_SKIP'.
-
-  "============================================================
-  " 0070 – DEF_SAVE  (save default view selection – pass 1)
-  "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE' '=DEF_SAVE'.
-
-  "============================================================
-  " 0070 – DEF_SAVE  (save default view selection – pass 2)
-  "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR' 'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'BDC_OKCODE' '=DEF_SAVE'.
-
-  "============================================================
-  " 0070 – DEF_SKIP pass 2
-  "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'USRM1-AAUSW'.
-  PERFORM bdc_field  USING 'USRM1-AAUSW' c_x.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  '=DEF_SKIP'.
-
-  "============================================================
-  " 0070 – ENTR: confirm view selection and proceed to 0080
-  "============================================================
-  PERFORM bdc_dynpro USING c_prog_mm c_scr_0070.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MSICHTAUSW-DYTXT(01)'.
-  PERFORM bdc_field  USING 'USRM1-AAUSW' c_x.
-  PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_entr.
+  PERFORM bdc_field  USING 'BDC_OKCODE' c_ok_entr.
 
   "============================================================
   " 0080 – Organisational levels
