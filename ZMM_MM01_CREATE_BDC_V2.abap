@@ -1140,11 +1140,12 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "============================================================
   " Costing 2 (4000)
+  " BDC_CURSOR = MARA-MEINS (confirmed by recording)
   " MBEW-EKALR  MBEW-HKMAT  MARC-PRCTR  MARC-LOSGR
   " MARC-SOBSK posted only when non-blank
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
-  PERFORM bdc_field  USING 'BDC_CURSOR'  'MBEW-HKMAT'.
+  PERFORM bdc_field  USING 'BDC_CURSOR'  'MARA-MEINS'.
   PERFORM bdc_field  USING 'MAKT-MAKTX'  ps_input-maktx.
   PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
   PERFORM bdc_field  USING 'MBEW-EKALR'  ps_input-ekalr.
