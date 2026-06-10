@@ -66,6 +66,7 @@
 *&  55 DISPO       MARC-DISPO             MRP Controller
 *&  56 DISLS       MARC-DISLS             Lot Sizing Procedure
 *&  57 MTPOS       MARA-MTPOS_MARA        General Item Category Group
+*&  58 BISMT       MARA-BISMT             Old Material Number
 *&---------------------------------------------------------------------*
 REPORT zmm_mm01_create_bdc.
 
@@ -135,6 +136,7 @@ TYPES: BEGIN OF ty_input,
          dispo    TYPE c LENGTH 3,    "col 55  MARC-DISPO
          disls    TYPE c LENGTH 2,    "col 56  MARC-DISLS
          mtpos    TYPE c LENGTH 4,    "col 57  MARA-MTPOS_MARA
+         bismt    TYPE c LENGTH 18,   "col 58  MARA-BISMT
        END OF ty_input.
 
 TYPES: BEGIN OF ty_input_raw,
@@ -195,6 +197,7 @@ TYPES: BEGIN OF ty_input_raw,
          dispo    TYPE string,    "col 55  MARC-DISPO
          disls    TYPE string,    "col 56  MARC-DISLS
          mtpos    TYPE string,    "col 57  MARA-MTPOS_MARA
+         bismt    TYPE string,    "col 58  MARA-BISMT
        END OF ty_input_raw.
 
 TYPES: BEGIN OF ty_record,
@@ -216,7 +219,7 @@ TYPES: BEGIN OF ty_error,
 *&---------------------------------------------------------------------*
 CONSTANTS:
   c_tcode_mm01    TYPE tcode VALUE 'MM01',
-  c_expected_cols TYPE i     VALUE 57,        "57 columns in Excel template
+  c_expected_cols TYPE i     VALUE 58,        "58 columns in Excel template
   c_update_sync   TYPE c     VALUE 'S',
   c_x             TYPE c     VALUE 'X',
 
@@ -773,6 +776,7 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   ps_input-qpls_arg = ps_raw-qpls_arg.
   ps_input-qpls_art = ps_raw-qpls_art.
   ps_input-mtpos    = ps_raw-mtpos.    "col 57 MARA-MTPOS_MARA
+  ps_input-bismt    = ps_raw-bismt.    "col 58 MARA-BISMT
 
   "MARC-DISMM: condense and uppercase ('nd' -> 'ND')
   lv_dismm = ps_raw-dismm.
@@ -959,7 +963,8 @@ FORM build_bdc USING ps_input TYPE ty_input.
   "============================================================
   " Basic Data 1 (4004)
   " MAKT-MAKTX  MARA-MEINS  MARA-MATKL  MARA-SPART
-  " MARA-BRGEW  MARA-GEWEI  MARA-NTGEW  MARA-MTPOS_MARA
+  " MARA-BRGEW  MARA-GEWEI  MARA-NTGEW
+  " MARA-MTPOS_MARA  MARA-BISMT
   "============================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4004.
   PERFORM bdc_field  USING 'BDC_CURSOR'       'MARA-MTPOS_MARA'.
@@ -971,6 +976,7 @@ FORM build_bdc USING ps_input TYPE ty_input.
   PERFORM bdc_field  USING 'MARA-GEWEI'       ps_input-gewei.
   PERFORM bdc_num    USING 'MARA-NTGEW'       ps_input-ntgew.
   PERFORM bdc_field  USING 'MARA-MTPOS_MARA'  ps_input-mtpos.
+  PERFORM bdc_field  USING 'MARA-BISMT'       ps_input-bismt.
   PERFORM bdc_field  USING 'BDC_OKCODE'       c_ok_enter.
 
   "============================================================
