@@ -63,6 +63,8 @@
 *&  52 NCOST       MARC-NCOST             Do Not Cost Material
 *&  53 QPLS_ARG    RMQAM-ARGUMENT         Insp Plan Usage
 *&  54 QPLS_ART    RMQAM-ART(01)          Insp Plan Insp Type
+*&  55 DISPO       MARC-DISPO             MRP Controller
+*&  56 DISLS       MARC-DISLS             Lot Sizing Procedure
 *&---------------------------------------------------------------------*
 REPORT zmm_mm01_create_bdc.
 
@@ -129,6 +131,8 @@ TYPES: BEGIN OF ty_input,
          ncost    TYPE c LENGTH 1,
          qpls_arg TYPE c LENGTH 10,
          qpls_art TYPE c LENGTH 4,
+         dispo    TYPE c LENGTH 3,
+         disls    TYPE c LENGTH 2,
        END OF ty_input.
 
 TYPES: BEGIN OF ty_input_raw,
@@ -186,6 +190,8 @@ TYPES: BEGIN OF ty_input_raw,
          ncost    TYPE string,
          qpls_arg TYPE string,
          qpls_art TYPE string,
+         dispo    TYPE string,
+         disls    TYPE string,
        END OF ty_input_raw.
 
 TYPES: BEGIN OF ty_record,
@@ -207,7 +213,7 @@ TYPES: BEGIN OF ty_error,
 *&---------------------------------------------------------------------*
 CONSTANTS:
   c_tcode_mm01    TYPE tcode VALUE 'MM01',
-  c_expected_cols TYPE i     VALUE 54,
+  c_expected_cols TYPE i     VALUE 56,
   c_update_sync   TYPE c     VALUE 'S',
   c_x             TYPE c     VALUE 'X',
 
@@ -713,11 +719,13 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
                           CHANGING ps_input TYPE ty_input
                                    pv_ok    TYPE abap_bool.
 
-  "Local variables – lv_dismm kept local, NOT at module level
+  "Local variables – all field-specific conversions kept local
   DATA: lv_mtvfp_n TYPE n LENGTH 2,
         lv_prctr   TYPE string,
         lv_steuc   TYPE string,
-        lv_dismm   TYPE string.
+        lv_dismm   TYPE string,
+        lv_dispo   TYPE string,
+        lv_disls   TYPE string.
 
   CLEAR ps_input.
   pv_ok = abap_true.
@@ -766,6 +774,18 @@ FORM convert_raw_to_input USING    ps_raw   TYPE ty_input_raw
   CONDENSE lv_dismm NO-GAPS.
   TRANSLATE lv_dismm TO UPPER CASE.
   ps_input-dismm = lv_dismm.
+
+  "MARC-DISPO: MRP controller – condense and uppercase
+  lv_dispo = ps_raw-dispo.
+  CONDENSE lv_dispo NO-GAPS.
+  TRANSLATE lv_dispo TO UPPER CASE.
+  ps_input-dispo = lv_dispo.
+
+  "MARC-DISLS: lot sizing procedure – condense and uppercase
+  lv_disls = ps_raw-disls.
+  CONDENSE lv_disls NO-GAPS.
+  TRANSLATE lv_disls TO UPPER CASE.
+  ps_input-disls = lv_disls.
 
   "MARC-MTVFP: left-zero-pad to 2 digits ('2' -> '02')
   IF ps_raw-mtvfp IS NOT INITIAL.
@@ -1027,17 +1047,19 @@ FORM build_bdc USING ps_input TYPE ty_input.
 
   "==========================================================
   " MRP 1 (4000)
-  " BDC_CURSOR = 'MARC-DISMM'
-  " T438T-DIBEZ is a display-only lookup field; it is where the cursor
-  " lands AFTER SAP performs the T438T description lookup internally.
-  " BDC_CURSOR must point to the input-ready field (MARC-DISMM) so
-  " the BDC engine can correctly position and submit the screen.
+  " Recording: BDC_CURSOR=MARC-DISMM, sets MARC-DISMM, MARC-DISPO,
+  "            MARC-DISLS
+  " Note: T438T-DIBEZ in the original recording is the display-only
+  "       description field populated AFTER the T438T lookup; it must
+  "       NOT be used as BDC_CURSOR. The input-ready field is MARC-DISMM.
   "==========================================================
   PERFORM bdc_dynpro USING c_prog_mm c_scr_4000.
   PERFORM bdc_field  USING 'BDC_CURSOR'  'MARC-DISMM'.
   PERFORM bdc_field  USING 'MAKT-MAKTX'  ps_input-maktx.
   PERFORM bdc_field  USING 'MARA-MEINS'  ps_input-meins.
   PERFORM bdc_field  USING 'MARC-DISMM'  ps_input-dismm.
+  PERFORM bdc_field  USING 'MARC-DISPO'  ps_input-dispo.
+  PERFORM bdc_field  USING 'MARC-DISLS'  ps_input-disls.
   PERFORM bdc_field  USING 'BDC_OKCODE'  c_ok_enter.
 
   "==========================================================
