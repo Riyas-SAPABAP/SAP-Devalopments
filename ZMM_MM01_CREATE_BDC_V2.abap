@@ -1217,10 +1217,14 @@ ENDFORM.
 *&---------------------------------------------------------------------*
 *& Form ANALYZE_BDC_MESSAGES
 *&
-*& Captures E (error), A (abend), W (warning) message types.
-*& Also explicitly catches message 00/349 which arrives as type 'S'
-*& (Status) in BDCMSGCOLL but means "Field & does not exist in
-*& screen & &" – a hard failure in background (N) mode.
+*& Every message in GT_MSGCOLL is converted to readable text and added
+*& to GT_ERRORS so it appears in the final ALV output.
+*&
+*& Row-failure logic (unchanged):
+*&   E / A / W types         -> mark row as failed
+*&   00/349 (S-type)         -> 'Field does not exist in screen' in
+*&                              background mode; also marks row failed
+*&   Any other SY-SUBRC <> 0 -> generic fallback error
 *&---------------------------------------------------------------------*
 FORM analyze_bdc_messages USING pv_rowno TYPE i.
 
@@ -1230,36 +1234,37 @@ FORM analyze_bdc_messages USING pv_rowno TYPE i.
 
   LOOP AT gt_msgcoll INTO gs_msgcoll.
 
+    "Capture the created material number from the first S-type message
     IF gs_msgcoll-msgtyp = 'S' AND gv_material IS INITIAL.
       IF gs_msgcoll-msgv1 IS NOT INITIAL.
         gv_material = gs_msgcoll-msgv1.
       ENDIF.
     ENDIF.
 
+    "Determine whether this message marks the row as a failure
     IF gs_msgcoll-msgtyp = 'E' OR gs_msgcoll-msgtyp = 'A'
        OR gs_msgcoll-msgtyp = 'W'.
       gv_row_failed = abap_true.
-      PERFORM get_message_text USING gs_msgcoll CHANGING gv_msgtext.
-      PERFORM add_error USING pv_rowno
-                              gv_material
-                              gs_msgcoll-msgtyp
-                              gs_msgcoll-msgid
-                              gs_msgcoll-msgnr
-                              gv_msgtext.
-
-    "Message 00/349 = 'Field & does not exist in screen & &'
-    "arrives as MSGTYP='S' in BDCMSGCOLL but indicates a real
-    "field-not-found failure in background mode.
-    ELSEIF gs_msgcoll-msgid = '00' AND gs_msgcoll-msgnr = '349'.
-      gv_row_failed = abap_true.
-      PERFORM get_message_text USING gs_msgcoll CHANGING gv_msgtext.
-      PERFORM add_error USING pv_rowno
-                              gv_material
-                              'E'
-                              gs_msgcoll-msgid
-                              gs_msgcoll-msgnr
-                              gv_msgtext.
     ENDIF.
+
+    "00/349 = 'Field & does not exist in screen & &'
+    "Arrives as MSGTYP='S' but is a hard failure in background mode.
+    IF gs_msgcoll-msgid = '00' AND gs_msgcoll-msgnr = '349'.
+      gv_row_failed = abap_true.
+    ENDIF.
+
+    "Add EVERY message to the output table regardless of type so the
+    "full BDC message log is visible in the ALV error report.
+    PERFORM get_message_text USING gs_msgcoll CHANGING gv_msgtext.
+    IF gv_msgtext IS INITIAL.
+      gv_msgtext = gs_msgcoll-msgv1.
+    ENDIF.
+    PERFORM add_error USING pv_rowno
+                            gv_material
+                            gs_msgcoll-msgtyp
+                            gs_msgcoll-msgid
+                            gs_msgcoll-msgnr
+                            gv_msgtext.
 
   ENDLOOP.
 
